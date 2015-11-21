@@ -1,0 +1,8 @@
+.idea/
+*.sublime*
+
+node_modules
+npm-debug.log
+
+test/browser/page/*.js
+lib/

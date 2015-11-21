@@ -1,0 +1,38 @@
+{
+  "name": "most-subject",
+  "version": "0.1.0",
+  "description": "Subject implemented in Most",
+  "main": "lib/index.js",
+  "scripts": {
+    "mocha": "mocha --compilers js:babel-core/register",
+    "compile-lib": "babel src/ -d lib/",
+    "test": "npm run mocha",
+    "prepublish": "npm test && npm run compile-lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tylors/most-subject.git"
+  },
+  "keywords": [
+    "most",
+    "mostjs",
+    "Subject"
+  ],
+  "author": "Tylor Steinberger <tlsteinberger167@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tylors/most-subject/issues"
+  },
+  "homepage": "https://github.com/tylors/most-subject#readme",
+  "devDependencies": {
+    "assert": "^1.3.0",
+    "babel-cli": "^6.2.0",
+    "babel-core": "^6.2.1",
+    "babel-preset-es2015": "^6.1.18",
+    "mocha": "^2.3.4"
+  },
+  "dependencies": {
+    "@most/hold": "^0.1.0",
+    "most": "^0.16.0"
+  }
+}
