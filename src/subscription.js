@@ -13,23 +13,31 @@ class Subscription {
     this.active = false
   }
 
-  add(x) {
+  next(x) { // ES7 Naming
     if (!this.active) {
       return
     }
     tryEvent(this.scheduler.now(), x, this.sink)
   }
 
-  error(x) {
+  add(x) { // Current Most naming
+    this.next(x)
+  }
+
+  error(x) { // ES7 Naming
     this.active = false
 	  this.sink.error(this.scheduler.now(), x)
   }
 
-  end(x) {
+  complete(x) { // ES7 Naming
     if (!this.active) {
       return
     }
     tryEnd(this.scheduler.now(), x, this.sink)
+  }
+
+  end(x) { // Current Most naming
+    this.complete(x)
   }
 }
 

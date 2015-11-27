@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/tylors/most-subject#readme",
   "devDependencies": {
+    "@most/hold": "^0.2.0",
     "assert": "^1.3.0",
     "babel-cli": "^6.2.0",
     "babel-core": "^6.2.1",

@@ -24,63 +24,76 @@ describe('Subject', () => {
       const hstream = hold(stream)
 
       hstream
-        .observe(x => {
+        .forEach(x => {
           assert.strictEqual(x, 1)
         })
 
       setTimeout(() => {
-        hstream.observe(x => {
+        hstream.forEach(x => {
           assert.strictEqual(x, 1)
           done()
         })
       }, 10)
 
-      sink.add(1)
+      sink.next(1)
+    })
+
+    it('should inherit Stream combinators', done => {
+      const {sink, stream} = Subject()
+
+      stream
+        .map(x => x * x)
+        .forEach(x => {
+          assert.strictEqual(x, 25)
+          done()
+        })
+
+      sink.next(5)
+      sink.complete()
     })
   })
 
   describe('sink', () => {
-    it('should allow adding events', done => {
+    it('should allow nexting events', done => {
       const {sink, stream} = Subject()
 
-      assert.strictEqual(typeof sink.add, 'function')
+      assert.strictEqual(typeof sink.next, 'function')
 
       stream.forEach(x => {
         assert.strictEqual(x, 1)
         done()
       })
 
-      sink.add(1)
-      sink.end()
+      sink.next(1)
+      sink.complete()
     })
 
     it('should allow sending errors' , done => {
       const {sink, stream} = Subject()
 
       assert.strictEqual(typeof sink.error, 'function')
-
       stream
         .drain()
         .then(assert.fail)
         .catch(err => {
-          assert.strictEqual(err, 'Error Message')
+          assert.strictEqual(err.message, 'Error Message')
           done()
         })
 
-      sink.add(1)
-      sink.add(2)
-      sink.error('Error Message')
+      sink.next(1)
+      sink.next(2)
+      sink.error(new Error('Error Message'))
     })
 
     it('should not allow ending of stream', done => {
       const {sink, stream} = Subject()
 
       stream
-        .observe(assert.fail)
+        .forEach(assert.fail)
         .then(done)
         .catch(assert.fail)
 
-      sink.end()
+      sink.complete()
     })
 
     it('should not allow events after end', done => {
@@ -88,12 +101,12 @@ describe('Subject', () => {
 
       const now = () => setTimeout(done, 10)
       stream
-        .observe(assert.fail)
+        .forEach(assert.fail)
         .then(now)
         .catch(assert.fail)
 
-      sink.end()
-      sink.add(1)
+      sink.complete()
+      sink.next(1)
     })
   })
 })
