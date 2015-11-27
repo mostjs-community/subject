@@ -35,7 +35,7 @@ describe('Subject', () => {
         })
       }, 10)
 
-      sink.next(1)
+      sink.add(1)
     })
 
     it('should inherit Stream combinators', done => {
@@ -48,8 +48,8 @@ describe('Subject', () => {
           done()
         })
 
-      sink.next(5)
-      sink.complete()
+      sink.add(5)
+      sink.end()
     })
   })
 
@@ -57,15 +57,15 @@ describe('Subject', () => {
     it('should allow nexting events', done => {
       const {sink, stream} = Subject()
 
-      assert.strictEqual(typeof sink.next, 'function')
+      assert.strictEqual(typeof sink.add, 'function')
 
       stream.forEach(x => {
         assert.strictEqual(x, 1)
         done()
       })
 
-      sink.next(1)
-      sink.complete()
+      sink.add(1)
+      sink.end()
     })
 
     it('should allow sending errors' , done => {
@@ -80,8 +80,8 @@ describe('Subject', () => {
           done()
         })
 
-      sink.next(1)
-      sink.next(2)
+      sink.add(1)
+      sink.add(2)
       sink.error(new Error('Error Message'))
     })
 
@@ -93,7 +93,7 @@ describe('Subject', () => {
         .then(done)
         .catch(assert.fail)
 
-      sink.complete()
+      sink.end()
     })
 
     it('should not allow events after end', done => {
@@ -105,8 +105,8 @@ describe('Subject', () => {
         .then(now)
         .catch(assert.fail)
 
-      sink.complete()
-      sink.next(1)
+      sink.end()
+      sink.add(1)
     })
   })
 })

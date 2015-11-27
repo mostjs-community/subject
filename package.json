@@ -33,6 +33,7 @@
     "mocha": "^2.3.4"
   },
   "dependencies": {
+    "@most/hold": "^0.2.0",
     "most": "^0.16.0"
   }
 }
