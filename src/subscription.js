@@ -1,6 +1,8 @@
 class Subscription {
 
-  constructor() {}
+  constructor(source) {
+    this.source = source
+  }
 
   run(sink, scheduler) {
     this.sink = sink
@@ -21,7 +23,10 @@ class Subscription {
   }
 
   add(x) { // Current Most naming
-    this.next(x)
+    if (!this.active) {
+      return
+    }
+    tryEvent(this.scheduler.now(), x, this.sink)
   }
 
   error(x) { // ES7 Naming
@@ -37,7 +42,10 @@ class Subscription {
   }
 
   end(x) { // Current Most naming
-    this.complete(x)
+    if (!this.active) {
+      return
+    }
+    tryEnd(this.scheduler.now(), x, this.sink)
   }
 }
 
