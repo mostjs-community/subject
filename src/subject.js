@@ -3,6 +3,9 @@ import MulticastSource from 'most/lib/source/MulticastSource'
 
 function Subscription() {
   this.run = (sink, scheduler) => this._run(sink, scheduler)
+  this.add = x => this._add(x)
+  this.error = err => this._error(err)
+  this.end = x => this._end(x)
 }
 
 Subscription.prototype._run = function run(sink, scheduler) {
@@ -24,14 +27,14 @@ function tryEvent(sink, scheduler, event) {
 	}
 }
 
-Subscription.prototype.add = function add(x) {
+Subscription.prototype._add = function add(x) {
   if (!this.active) {
     return
   }
   tryEvent(this.sink, this.scheduler, x)
 }
 
-Subscription.prototype.error = function error(e) {
+Subscription.prototype._error = function error(e) {
   this.active = false
   this.sink.error(this.scheduler.now(), e)
 }
@@ -44,7 +47,7 @@ function tryEnd(sink, scheduler, event) {
   }
 }
 
-Subscription.prototype.end = function end(x) {
+Subscription.prototype._end = function end(x) {
   if (!this.active) {
     return
   }
