@@ -85,7 +85,7 @@ describe('Subject', () => {
       sink.error(new Error('Error Message'))
     })
 
-    it('should not allow ending of stream', done => {
+    it('should allow ending of stream', done => {
       const {sink, stream} = Subject()
 
       stream
