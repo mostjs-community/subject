@@ -16,15 +16,19 @@ Subscription.prototype.dispose = function dispose() {
   this.active = false
 }
 
+function tryEvent(sink, scheduler, event) {
+  try {
+		sink.event(scheduler.now(), event)
+	} catch(e) {
+		sink.error(scheduler.now(), e)
+	}
+}
+
 Subscription.prototype.add = function add(x) {
   if (!this.active) {
     return
   }
-  try {
-		this.sink.event(this.scheduler.now(), x)
-	} catch(e) {
-		this.sink.error(this.scheduler.now(), e)
-	}
+  tryEvent(this.sink, this.scheduler, x)
 }
 
 Subscription.prototype.error = function error(e) {
@@ -32,16 +36,20 @@ Subscription.prototype.error = function error(e) {
   this.sink.error(this.scheduler.now(), e)
 }
 
+function tryEnd(sink, scheduler, event) {
+  try {
+    sink.end(scheduler.now(), event)
+  } catch (e) {
+    sink.error(scheduler.now(), e)
+  }
+}
+
 Subscription.prototype.end = function end(x) {
   if (!this.active) {
     return
   }
   this.active = false
-  try {
-    this.sink.end(this.scheduler.now(), x)
-  } catch (e) {
-    this.sink.error(this.scheduler.now(), x)
-  }
+  tryEnd(this.sink, this.scheduler, x)
 }
 
 function create() {
