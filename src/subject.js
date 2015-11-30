@@ -1,18 +1,22 @@
 import {Stream} from 'most'
 import MulticastSource from 'most/lib/source/MulticastSource'
 
-function run(sink, scheduler) {
+function Subscription() {
+  this.run = (sink, scheduler) => this._run(sink, scheduler)
+}
+
+Subscription.prototype._run = function run(sink, scheduler) {
   this.sink = sink
   this.scheduler = scheduler
   this.active = true
   return this
 }
 
-function dispose() {
+Subscription.prototype.dispose = function dispose() {
   this.active = false
 }
 
-function add(x) {
+Subscription.prototype.add = function add(x) {
   if (!this.active) {
     return
   }
@@ -23,15 +27,16 @@ function add(x) {
 	}
 }
 
-function error(e) {
+Subscription.prototype.error = function error(e) {
   this.active = false
   this.sink.error(this.scheduler.now(), e)
 }
 
-function end(x) {
+Subscription.prototype.end = function end(x) {
   if (!this.active) {
     return
   }
+  this.active = false
   try {
     this.sink.end(this.scheduler.now(), x)
   } catch (e) {
@@ -39,18 +44,9 @@ function end(x) {
   }
 }
 
-function Subscription() {
-  this.run = run.bind(this)
-  this.dispose = dispose.bind(this)
-  this.add = add.bind(this)
-  this.error = error.bind(this)
-  this.end = end.bind(this)
-}
-
 function create() {
   const sink = new Subscription()
   const stream = new Stream(new MulticastSource(sink))
-  stream.drain()
   return {sink, stream}
 }
 
