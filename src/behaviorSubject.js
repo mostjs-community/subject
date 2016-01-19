@@ -30,9 +30,7 @@ function create(initialValue) {
   const sink = new BehaviorSubscription(initialValue)
   const stream = new Stream(new MulticastSource(sink))
   const holdStream = hold(stream)
-  holdStream.observe(x => {
-    stream.value = x
-  })
+  holdStream.drain()
   return {sink, stream: holdStream}
 }
 
