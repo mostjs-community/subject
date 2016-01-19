@@ -3,9 +3,9 @@ import MulticastSource from 'most/lib/source/MulticastSource'
 
 function Subscription() {
   this.run = (sink, scheduler) => this._run(sink, scheduler)
-  this.add = x => this._add(x)
+  this.add = this.next = x => this._add(x)
   this.error = err => this._error(err)
-  this.end = x => this._end(x)
+  this.end = this.complete = x => this._end(x)
 }
 
 Subscription.prototype._run = function run(sink, scheduler) {
@@ -58,7 +58,12 @@ Subscription.prototype._end = function end(x) {
 function create() {
   const sink = new Subscription()
   const stream = new Stream(new MulticastSource(sink))
-  return {sink, stream}
+  stream.drain()
+  return {
+    sink,
+    stream,
+  }
 }
 
+export {Subscription}
 export default create

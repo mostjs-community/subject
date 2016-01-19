@@ -1,3 +1,5 @@
-import Subject from './subject'
+import subject from './subject'
+import holdSubject from './holdSubject'
+import behaviorSubject from './behaviorSubject'
 
-export default Subject
+export {subject, holdSubject, behaviorSubject}
