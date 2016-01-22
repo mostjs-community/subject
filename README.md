@@ -1,6 +1,6 @@
 # Most Subject [![Build Status](https://travis-ci.org/TylorS/most-subject.svg?branch=master)](https://travis-ci.org/TylorS/most-subject) [![npm version](https://badge.fury.io/js/most-subject.svg)](https://badge.fury.io/js/most-subject)
 
-An Rx.Subject-like interface for Most.js
+Subject and Subject-like interface to Most.js
 
 # Usage
 
