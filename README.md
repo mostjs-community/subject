@@ -41,28 +41,28 @@ observer.complete() // alias for end()
 import {subject} from 'most-subject'
 ```
 
-** Arguments **
+**Arguments**
 
   - initialValue (optional) :: any - A value for the stream to start with
 
-** Returns **
+**Returns**
 
   - sink :: [Sink](#sink) - A sink to imperatively push to a stream
   - observer :: [Sink](#sink) - An alias to `sink` to more closely align with ES Observable specification.
   - stream :: most.Stream - The stream the sink/observer pushes to.
 
-#### ** holdSubject(bufferSize = 1 [, initialValue]) **
+#### **holdSubject(bufferSize = 1 [, initialValue])**
 ```js
 import {holdSubject} from 'most-subject'
 ```
 
-** Arguments **
+**Arguments**
 
   - bufferSize (defaults to 1) :: Number - Size of the buffer which will store past values. These values will be replayed upon observation.
 
   - initialValue (optional) :: any - A value for the stream to start with
 
-** Returns **
+**Returns**
 
   - sink :: [Sink](#sink) - A sink to imperatively push to a stream
   - observer :: [Sink](#sink) - An alias to `sink` to more closely align with ES Observable specification.
@@ -71,7 +71,7 @@ import {holdSubject} from 'most-subject'
 
 #### Sink
 
-** Methods **
+**Methods**
 
   - *add(value: any): void* - pushes a value to a sink's associated stream
   - *next(value: any): void* - alias for `add()`
