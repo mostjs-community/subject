@@ -47,8 +47,8 @@ import {subject} from 'most-subject'
 
 ** Returns **
 
-  - sink :: [Sink](#Sink) - A sink to imperatively push to a stream
-  - observer :: [Sink](#Sink) - An alias to `sink` to more closely align with ES Observable specification.
+  - sink :: [Sink](#sink) - A sink to imperatively push to a stream
+  - observer :: [Sink](#sink) - An alias to `sink` to more closely align with ES Observable specification.
   - stream :: most.Stream - The stream the sink/observer pushes to.
 
 #### ** holdSubject(bufferSize = 1 [, initialValue]) **
