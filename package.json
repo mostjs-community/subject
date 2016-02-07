@@ -26,13 +26,13 @@
   },
   "homepage": "https://github.com/tylors/most-subject#readme",
   "devDependencies": {
-    "@most/hold": "^1.0.0",
+    "@most/hold": "^1.1.0",
     "assert": "^1.3.0",
-    "babel-cli": "^6.2.4",
-    "babel-core": "^6.2.4",
-    "babel-preset-es2015": "^6.2.4",
+    "babel-cli": "^6.4.5",
+    "babel-core": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13",
     "mocha": "^2.3.4",
-    "most": "0.17.1"
+    "most": "0.18.0"
   },
   "peerDependencies": {
     "most": "*",
