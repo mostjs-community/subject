@@ -1,40 +1,32 @@
 import {Stream} from 'most'
 import MulticastSource from 'most/lib/source/MulticastSource'
-import {Subscription} from './Subscription'
-import {replay as replayStream} from './ReplaySource'
-import hold from '@most/hold'
+import {Observer} from './Observer'
+import {replay} from './Replay'
 
-const defaults = {
-  replay: false,
-  bufferSize: 1
-}
-
-function create(replay, bufferSize, initialValue) {
-  const sink = new Subscription()
-  let stream;
-
-  if (!replay) {
-    stream = new Stream(new MulticastSource(sink))
-  } else {
-    stream = bufferSize === 1 ?
-      hold(new Stream(sink)) :
-      replayStream(new Stream(sink), bufferSize)
-  }
+function create(hold, bufferSize, initialValue) {
+  const observer = new Observer()
+  const stream = hold ?
+    replay(bufferSize, new Stream(observer)) :
+    new Stream(new MulticastSource(observer))
 
   stream.drain()
 
   if (typeof initialValue !== 'undefined') {
-    sink.next(initialValue)
+    observer.next(initialValue)
   }
 
-  return {sink, stream, observer: sink}
+  return {stream, observer}
 }
 
-function subject(initialValue) {
-  return create(false, 1, initialValue)
+function subject() {
+  return create(false, 0)
 }
 
 function holdSubject(bufferSize = 1, initialValue) {
+  if (bufferSize < 1) {
+    throw new Error('First argument to holdSubject is expected to be an ' +
+      'integer greater than or equal to 1')
+  }
   return create(true, bufferSize, initialValue)
 }
 
