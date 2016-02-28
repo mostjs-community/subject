@@ -34,7 +34,7 @@ observer.next(5)
 observer.complete()
 ```
 
-Returns [**Subject**](#Subject)
+Returns [**Subject**](#subject-1)
 
 ## subject()
 
@@ -57,7 +57,7 @@ observer.next(3)
 observer.complete()
 ```
 
-Returns [**Subject**](#Subject)
+Returns [**Subject**](#subject-1)
 
 ## Subject
 
@@ -65,7 +65,7 @@ A Subject is simply an object with the following properties
 
 **Properties**
 
--   `observer` [**Observer**](#Observer)
+-   `observer` [**Observer**](#observer)
 -   `stream` **most.Stream** A most.js Stream instance
 
 ## Observer
