@@ -1,6 +1,6 @@
 {
   "name": "most-subject",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Subject implemented in Most",
   "main": "lib/index.js",
   "scripts": {
