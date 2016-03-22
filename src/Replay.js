@@ -1,5 +1,5 @@
 import {Stream} from 'most'
-import MulticastSource from 'most/lib/source/MulticastSource'
+import {MulticastSource} from '@most/multicast'
 
 function pushEvents(sink, buffer) {
   let i = 0
