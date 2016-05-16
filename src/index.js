@@ -1,33 +1,58 @@
-import {Stream} from 'most'
-import {MulticastSource} from '@most/multicast'
-import {Observer} from './Observer'
-import {replay} from './Replay'
+/* @flow */
+import {Subject} from './Subject'
+import {SubjectSource} from './source/SubjectSource'
+import {HoldSubjectSource} from './source/HoldSubjectSource'
 
-function create(hold, bufferSize, initialValue) {
-  const observer = new Observer()
-  const stream = hold ?
-    replay(bufferSize, new Stream(observer)) :
-    new Stream(new MulticastSource(observer))
+/**
+ * Creates a new Subject
+ *
+ * @return {Subject} {@link Subject}
+ *
+ * @example
+ * import {subject} from 'most-subject'
+ *
+ * const stream = subject()
+ *
+ * stream.map(fn).observe(x => console.log(x))
+ * // 1
+ * // 2
+ *
+ * stream.next(1)
+ * stream.next(2)
+ * setTimeout(() => stream.complete(), 10)
+ */
+export function subject (): Subject {
+  return new Subject(new SubjectSource())
+}
 
-  stream.drain()
-
-  if (typeof initialValue !== 'undefined') {
-    observer.next(initialValue)
+/**
+ * Create a subject with a buffer to keep from missing events.
+ *
+ * @param  {number}    bufferSize =             1 The maximum size of the
+ * buffer to create.
+ *
+ * @return {Subject} {@link Subject}
+ *
+ * @example
+ * import {holdSubject} from 'most-subject'
+ *
+ * const stream = holdSubject(3)
+ *
+ * stream.next(1)
+ * stream.next(2)
+ * stream.next(3)
+ *
+ * stream.map(fn).observe(x => console.log(x))
+ * // 1
+ * // 2
+ * // 3
+ *
+ * setTimeout(() => stream.complete(), 10)
+ */
+export function holdSubject (bufferSize: number = 1): Subject {
+  if (bufferSize <= 0) {
+    throw new Error('First and only argument to holdSubject `bufferSize` ' +
+      'must be an integer 1 or greater')
   }
-
-  return {stream, observer}
+  return new Subject(new HoldSubjectSource(bufferSize))
 }
-
-function subject() {
-  return create(false, 0)
-}
-
-function holdSubject(bufferSize = 1, initialValue) {
-  if (bufferSize < 1) {
-    throw new Error('First argument to holdSubject is expected to be an ' +
-      'integer greater than or equal to 1')
-  }
-  return create(true, bufferSize, initialValue)
-}
-
-export {subject, holdSubject}

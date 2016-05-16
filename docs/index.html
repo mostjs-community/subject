@@ -1,0 +1,275 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>  | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
+  <link href='assets/style.css' type='text/css' rel='stylesheet' />
+  <link href='assets/github.css' type='text/css' rel='stylesheet' />
+</head>
+<body class='documentation'>
+  <div class='container'>
+    <div class='clearfix md-mxn2'>
+      <div class='fixed md-show fix-3 overflow-auto max-height-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'></h3>
+          <div class='mb1'><code></code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block field'
+            type='text' />
+          <div id='toc'>
+              <a
+                href='#Subject'
+                class='block bold'>
+                Subject
+              </a>
+                <a
+                  href='#Subject.complete'
+                  class='regular block'>
+                  #complete
+                </a>
+                <a
+                  href='#Subject.error'
+                  class='regular block'>
+                  #error
+                </a>
+                <a
+                  href='#Subject.next'
+                  class='regular block'>
+                  #next
+                </a>
+              <a
+                href='#holdSubject'
+                class='block bold'>
+                holdSubject
+              </a>
+              <a
+                href='#subject'
+                class='block bold'>
+                subject
+              </a>
+          </div>
+        </div>
+      </div>
+      <div class='fix-margin-3'>
+        <div class='px2'>
+<div class='py1'><section class='py2 clearfix'>
+  <h2 id='Subject' class='mt0'>
+    Subject<span class='gray'></span>
+  </h2>
+    <p><a href='https://github.com/tylors/most-subject/blob/c9beaac8b70566a7e2e22fd583008b40b87ca0b8/src/Subject.js#L7-L40'><code>src/Subject.js</code></a></p>
+  
+  
+  
+  
+  
+  <p>The base Subject class, which is an extension of Stream</p>
+
+      <h4>Instance members</h4>
+        <div class='collapsible' id='Subject.complete'>
+          <a href='#Subject.complete'>
+            <code>
+              #complete<span class='gray'>(value)</span>
+            </code>
+            <div class='force-inline'>
+              <p>Ends the stream with an optional value</p>
+
+            </div>
+          </a>
+          <div class='collapser border px2'>
+<section class='py2 clearfix'>
+  <h2 id='Subject.complete' class='mt0'>
+    complete<span class='gray'>(value)</span>
+  </h2>
+    <p><a href='https://github.com/tylors/most-subject/blob/c9beaac8b70566a7e2e22fd583008b40b87ca0b8/src/Subject.js#L37-L39'><code>src/Subject.js</code></a></p>
+  
+  
+  
+  
+  
+  <p>Ends the stream with an optional value</p>
+
+    <h4>Parameters</h4>
+    <ul class='suppress-p-margin'>
+        <li>any
+ <strong>value</strong>
+          :
+          <div class='force-inline'>
+            <p>The value you would like to end the stream on</p>
+
+          </div>
+        </li>
+    </ul>
+</section>
+          </div>
+        </div>
+        <div class='collapsible' id='Subject.error'>
+          <a href='#Subject.error'>
+            <code>
+              #error<span class='gray'>(err)</span>
+            </code>
+            <div class='force-inline'>
+              <p>Push an error and end the stream</p>
+
+            </div>
+          </a>
+          <div class='collapser border px2'>
+<section class='py2 clearfix'>
+  <h2 id='Subject.error' class='mt0'>
+    error<span class='gray'>(err)</span>
+  </h2>
+    <p><a href='https://github.com/tylors/most-subject/blob/c9beaac8b70566a7e2e22fd583008b40b87ca0b8/src/Subject.js#L26-L28'><code>src/Subject.js</code></a></p>
+  
+  
+  
+  
+  
+  <p>Push an error and end the stream</p>
+
+    <h4>Parameters</h4>
+    <ul class='suppress-p-margin'>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error">Error</a>
+ <strong>err</strong>
+          :
+          <div class='force-inline'>
+            <p>The error you would like to push to the stream</p>
+
+          </div>
+        </li>
+    </ul>
+</section>
+          </div>
+        </div>
+        <div class='collapsible' id='Subject.next'>
+          <a href='#Subject.next'>
+            <code>
+              #next<span class='gray'>(value)</span>
+            </code>
+            <div class='force-inline'>
+              <p>Push a new value to the stream</p>
+
+            </div>
+          </a>
+          <div class='collapser border px2'>
+<section class='py2 clearfix'>
+  <h2 id='Subject.next' class='mt0'>
+    next<span class='gray'>(value)</span>
+  </h2>
+    <p><a href='https://github.com/tylors/most-subject/blob/c9beaac8b70566a7e2e22fd583008b40b87ca0b8/src/Subject.js#L15-L17'><code>src/Subject.js</code></a></p>
+  
+  
+  
+  
+  
+  <p>Push a new value to the stream</p>
+
+    <h4>Parameters</h4>
+    <ul class='suppress-p-margin'>
+        <li>any
+ <strong>value</strong>
+          :
+          <div class='force-inline'>
+            <p>The value you want to push to the stream</p>
+
+          </div>
+        </li>
+    </ul>
+</section>
+          </div>
+        </div>
+</section>
+</div><div class='py1'><section class='py2 clearfix'>
+  <h2 id='holdSubject' class='mt0'>
+    holdSubject<span class='gray'>(bufferSize)</span>
+  </h2>
+    <p><a href='https://github.com/tylors/most-subject/blob/c9beaac8b70566a7e2e22fd583008b40b87ca0b8/src/index.js#L52-L58'><code>src/index.js</code></a></p>
+  
+  
+  
+  
+  
+  <p>Create a subject with a buffer to keep from missing events.</p>
+
+    <h4>Parameters</h4>
+    <ul class='suppress-p-margin'>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>
+ <strong>bufferSize</strong>
+          :
+          <div class='force-inline'>
+            <p>=             1 The maximum size of the
+buffer to create.</p>
+
+          </div>
+        </li>
+    </ul>
+      <h4>Returns</h4>
+      <code>Subject
+</code>
+      :
+      <div class='force-inline'>
+        <p><a href="#Subject">Subject</a></p>
+
+      </div>
+    <h4>Examples</h4>
+
+    <pre class='overflow-auto'><span class="hljs-keyword">import</span> {holdSubject} <span class="hljs-keyword">from</span> <span class="hljs-string">'most-subject'</span>
+
+<span class="hljs-keyword">const</span> stream = holdSubject(<span class="hljs-number">3</span>)
+
+stream.next(<span class="hljs-number">1</span>)
+stream.next(<span class="hljs-number">2</span>)
+stream.next(<span class="hljs-number">3</span>)
+
+stream.map(fn).observe(x =&gt; <span class="hljs-built_in">console</span>.log(x))
+<span class="hljs-comment">// 1</span>
+<span class="hljs-comment">// 2</span>
+<span class="hljs-comment">// 3</span>
+
+setTimeout(() =&gt; stream.complete(), <span class="hljs-number">10</span>)</pre>
+</section>
+</div><div class='py1'><section class='py2 clearfix'>
+  <h2 id='subject' class='mt0'>
+    subject<span class='gray'></span>
+  </h2>
+    <p><a href='https://github.com/tylors/most-subject/blob/c9beaac8b70566a7e2e22fd583008b40b87ca0b8/src/index.js#L24-L26'><code>src/index.js</code></a></p>
+  
+  
+  
+  
+  
+  <p>Creates a new Subject</p>
+
+      <h4>Returns</h4>
+      <code>Subject
+</code>
+      :
+      <div class='force-inline'>
+        <p><a href="#Subject">Subject</a></p>
+
+      </div>
+    <h4>Examples</h4>
+
+    <pre class='overflow-auto'><span class="hljs-keyword">import</span> {subject} <span class="hljs-keyword">from</span> <span class="hljs-string">'most-subject'</span>
+
+<span class="hljs-keyword">const</span> stream = subject()
+
+stream.map(fn).observe(x =&gt; <span class="hljs-built_in">console</span>.log(x))
+<span class="hljs-comment">// 1</span>
+<span class="hljs-comment">// 2</span>
+
+stream.next(<span class="hljs-number">1</span>)
+stream.next(<span class="hljs-number">2</span>)
+setTimeout(() =&gt; stream.complete(), <span class="hljs-number">10</span>)</pre>
+</section>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>
