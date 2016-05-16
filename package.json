@@ -48,7 +48,6 @@
     "flow-bin": "^0.24.2",
     "mkdirp": "^0.5.1",
     "mocha": "^2.4.5",
-    "most": "*",
     "power-assert": "^1.4.1",
     "rimraf": "^2.5.2",
     "rollup": "^0.26.3",
