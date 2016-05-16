@@ -1,6 +1,7 @@
 language: node_js
 sudo: true
 node_js:
+  - "6"
   - "5"
   - "4"
 env:
