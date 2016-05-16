@@ -1,32 +1,38 @@
 (function (global, factory) {
-  if (typeof define === "function" && define.amd) {
-    define('most-subject', ['exports', 'most', 'most/lib/scheduler/defaultScheduler', '@most/multicast', '@most/prelude'], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(exports, require('most'), require('most/lib/scheduler/defaultScheduler'), require('@most/multicast'), require('@most/prelude'));
-  } else {
-    var mod = {
-      exports: {}
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('most'), require('most/lib/scheduler/defaultScheduler'), require('@most/multicast'), require('@most/prelude')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'most', 'most/lib/scheduler/defaultScheduler', '@most/multicast', '@most/prelude'], factory) :
+  (factory((global.mostSubject = global.mostSubject || {}),global.most,global.most.defaultScheduler,global.mostMulticast,global.mostPrelude));
+}(this, function (exports,most,defaultScheduler,_most_multicast,_most_prelude) { 'use strict';
+
+  defaultScheduler = 'default' in defaultScheduler ? defaultScheduler['default'] : defaultScheduler;
+
+  var babelHelpers = {};
+
+  babelHelpers.classCallCheck = function (instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+
+  babelHelpers.createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
     };
-    factory(mod.exports, global.most, global.defaultScheduler, global.multicast, global.prelude);
-    global.mostSubject = mod.exports;
-  }
-})(this, function (exports, _most, _defaultScheduler, _multicast, _prelude) {
-  'use strict';
+  }();
 
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.holdSubject = exports.subject = undefined;
-
-  var _defaultScheduler2 = _interopRequireDefault(_defaultScheduler);
-
-  function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-      default: obj
-    };
-  }
-
-  var _get = function get(object, property, receiver) {
+  babelHelpers.get = function get(object, property, receiver) {
     if (object === null) object = Function.prototype;
     var desc = Object.getOwnPropertyDescriptor(object, property);
 
@@ -51,39 +57,7 @@
     }
   };
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  function _possibleConstructorReturn(self, call) {
-    if (!self) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-
-    return call && (typeof call === "object" || typeof call === "function") ? call : self;
-  }
-
-  function _inherits(subClass, superClass) {
+  babelHelpers.inherits = function (subClass, superClass) {
     if (typeof superClass !== "function" && superClass !== null) {
       throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
     }
@@ -97,54 +71,76 @@
       }
     });
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-  }
+  };
 
-  var Subject = function (_Stream) {
-    _inherits(Subject, _Stream);
-
-    /**
-     * Create a new Subject
-     *
-     * @param  {Object}    source A Subject Source
-     */
-
-    function Subject(source) {
-      _classCallCheck(this, Subject);
-
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(Subject).call(this, source));
+  babelHelpers.possibleConstructorReturn = function (self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
     }
 
-    /**
-     * Push a new value to the stream
-     *
-     * @method next
-     *
-     * @param  {any}   value The value you want to push to the stream
-     */
+    return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  };
 
+  babelHelpers;
 
-    _createClass(Subject, [{
+  /** The base Subject class, which is an extension of Stream
+   * @typedef {Object} Subject
+   */
+  var Subject = function (_Stream) {
+    babelHelpers.inherits(Subject, _Stream);
+
+    function Subject() {
+      babelHelpers.classCallCheck(this, Subject);
+      return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Subject).apply(this, arguments));
+    }
+
+    babelHelpers.createClass(Subject, [{
       key: 'next',
+
+      /**
+       * Push a new value to the stream
+       *
+       * @method next
+       *
+       * @param  {any}   value The value you want to push to the stream
+       */
       value: function next(value) {
         this.source.next(value);
       }
+
+      /**
+       * Push an error and end the stream
+       *
+       * @method error
+       *
+       * @param  {Error} err The error you would like to push to the stream
+       */
+
     }, {
       key: 'error',
       value: function error(err) {
         this.source.error(err);
       }
+
+      /**
+       * Ends the stream with an optional value
+       *
+       * @method complete
+       *
+       * @param  {any} value The value you would like to end the stream on
+       */
+
     }, {
       key: 'complete',
       value: function complete(value) {
         this.source.complete(value);
       }
     }]);
-
     return Subject;
-  }(_most.Stream);
+  }(most.Stream);
 
   function SubjectSource() {
-    this.scheduler = _defaultScheduler2.default;
+    this.scheduler = defaultScheduler;
     this.sinks = [];
     this.active = true;
   }
@@ -189,11 +185,11 @@
   };
 
   // Multicasting methods
-  SubjectSource.prototype.add = _multicast.MulticastSource.prototype.add;
-  SubjectSource.prototype.remove = _multicast.MulticastSource.prototype.remove;
-  SubjectSource.prototype._next = _multicast.MulticastSource.prototype.event;
-  SubjectSource.prototype._complete = _multicast.MulticastSource.prototype.end;
-  SubjectSource.prototype._error = _multicast.MulticastSource.prototype.error;
+  SubjectSource.prototype.add = _most_multicast.MulticastSource.prototype.add;
+  SubjectSource.prototype.remove = _most_multicast.MulticastSource.prototype.remove;
+  SubjectSource.prototype._next = _most_multicast.MulticastSource.prototype.event;
+  SubjectSource.prototype._complete = _most_multicast.MulticastSource.prototype.end;
+  SubjectSource.prototype._error = _most_multicast.MulticastSource.prototype.error;
 
   // SubjectDisposable
   function SubjectDisposable(source, sink) {
@@ -211,27 +207,28 @@
     return remaining === 0 && this.source._dispose();
   };
 
+  // flow-ignore-next-line: I want to extend another class
   var HoldSubjectSource = function (_SubjectSource) {
-    _inherits(HoldSubjectSource, _SubjectSource);
+    babelHelpers.inherits(HoldSubjectSource, _SubjectSource);
 
     function HoldSubjectSource(bufferSize) {
-      _classCallCheck(this, HoldSubjectSource);
+      babelHelpers.classCallCheck(this, HoldSubjectSource);
 
-      var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(HoldSubjectSource).call(this));
+      var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(HoldSubjectSource).call(this));
 
-      _this2.bufferSize = bufferSize;
-      _this2.buffer = [];
-      return _this2;
+      _this.bufferSize = bufferSize;
+      _this.buffer = [];
+      return _this;
     }
 
-    _createClass(HoldSubjectSource, [{
+    babelHelpers.createClass(HoldSubjectSource, [{
       key: 'add',
       value: function add(sink) {
         var buffer = this.buffer;
         if (buffer.length > 0) {
           pushEvents(buffer, sink);
         }
-        _get(Object.getPrototypeOf(HoldSubjectSource.prototype), 'add', this).call(this, sink);
+        babelHelpers.get(Object.getPrototypeOf(HoldSubjectSource.prototype), 'add', this).call(this, sink);
       }
     }, {
       key: 'next',
@@ -244,7 +241,6 @@
         this._next(time, value);
       }
     }]);
-
     return HoldSubjectSource;
   }(SubjectSource);
 
@@ -260,9 +256,9 @@
 
   function dropAndAppend(event, buffer, bufferSize) {
     if (buffer.length >= bufferSize) {
-      return (0, _prelude.append)(event, (0, _prelude.drop)(1, buffer));
+      return _most_prelude.append(event, _most_prelude.drop(1, buffer));
     }
-    return (0, _prelude.append)(event, buffer);
+    return _most_prelude.append(event, buffer);
   }
 
   /**
@@ -276,14 +272,16 @@
    * const stream = subject()
    *
    * stream.map(fn).observe(x => console.log(x))
+   * // 1
+   * // 2
    *
    * stream.next(1)
    * stream.next(2)
    * setTimeout(() => stream.complete(), 10)
    */
-  var subject = function subject() {
+  function subject() {
     return new Subject(new SubjectSource());
-  };
+  }
 
   /**
    * Create a subject with a buffer to keep from missing events.
@@ -303,6 +301,9 @@
    * stream.next(3)
    *
    * stream.map(fn).observe(x => console.log(x))
+   * // 1
+   * // 2
+   * // 3
    *
    * setTimeout(() => stream.complete(), 10)
    */
@@ -317,4 +318,6 @@
 
   exports.subject = subject;
   exports.holdSubject = holdSubject;
-});
+
+}));
+//# sourceMappingURL=most-subject.js.map
