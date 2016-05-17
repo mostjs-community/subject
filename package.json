@@ -10,7 +10,7 @@
     "build-dist": "mkdirp dist && rollup -c",
     "build": "npm run build-dist && uglifyjs dist/most-subject.js -o dist/most-subject.min.js",
     "lint": "eslint src/ && flow",
-    "mocha": "mocha --compilers js:babel-core/register",
+    "mocha": "mocha -r babel-register",
     "test": "npm run lint && npm run mocha",
     "docs": "rimraf docs && mkdirp docs && documentation build -f 'html' -g -o docs/ src/*.js",
     "preversion": "npm run build",
@@ -31,9 +31,6 @@
     "url": "https://github.com/tylors/most-subject/issues"
   },
   "homepage": "https://github.com/tylors/most-subject#readme",
-  "browserify-shim": {
-    "most": "global:most"
-  },
   "devDependencies": {
     "@most/eslint-config-most": "^1.0.2",
     "babel-cli": "^6.8.0",

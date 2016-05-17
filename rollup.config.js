@@ -4,7 +4,11 @@ export default {
   entry: 'src/index.js',
   format: 'umd',
   plugins: [
-    babel()
+    babel({
+      babelrc: false,
+      presets: ['es2015-rollup'],
+      plugins: ['syntax-flow', 'transform-flow-strip-types']
+    })
   ],
   sourceMap: true,
   globals: {
