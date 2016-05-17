@@ -1,6 +1,6 @@
 {
   "name": "most-subject",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Subject implemented in Most",
   "main": "dist/most-subject.js",
   "files": [
