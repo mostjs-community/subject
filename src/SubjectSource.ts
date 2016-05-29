@@ -1,7 +1,6 @@
 import {Source, Sink, Scheduler, Disposable} from 'most';
-import {append, remove, findIndex} from '@most/prelude';
 import {SubjectDisposable} from './SubjectDisposable';
-import {tryEvent, tryEnd} from './util';
+import {tryEvent, tryEnd, append, remove, findIndex} from './util';
 
 declare var require: any;
 const defaultScheduler = require('most/lib/scheduler/defaultScheduler');
