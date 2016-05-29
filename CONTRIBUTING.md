@@ -1,7 +1,3 @@
-First of all, thank you for contributing. It’s appreciated.
+We'd highly appreciate your contribution to our source code to make this even better.
 
-1. Clone the repo and install dependencies with `npm install`.
-2. Make a GitHub issue before doing significant amount of work.
-3. Run `npm test` to lint and test. Don’t commit before fixing all errors and warnings.
-4. Reference the issue’s number in your commit. E.g.: “Did this #12”
-5. Make a pull request.
+It would be greatly appreciated that when you make commits please use `npm run commit` instead of `git commit` to easily adhere to the commit message format in place.

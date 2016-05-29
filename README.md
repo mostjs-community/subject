@@ -4,4 +4,4 @@ Subject interface for [most](https://github.com/cujojs/most)
 
 ## API Documentation
 
-To find the API documentation follow [this link](https://tylors.github.io/most-subject/docs)!
+To find the API documentation follow [this link](https://tylors.github.io/most-subject/doc)!
