@@ -3,6 +3,7 @@
   "version": "4.1.0",
   "description": "Subjects for most.js",
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "doc": "typedoc src/index.ts --excludeNotExported --out doc/ --module commonjs --target ES5 --name 'Most Subject' src/index.ts",
     "postdoc": "git add doc/ && git commit -m 'chore(docs): build doc/'",
