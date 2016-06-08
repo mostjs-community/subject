@@ -46,7 +46,7 @@ class Subject<T> extends Stream<T> {
 
 interface SubjectSource<T> extends Source<T> {
 
-  run (sink: Sink<T>, scheduler: Scheduler): void;
+  run (sink: Sink<T>, scheduler: Scheduler): Disposable<T>;
 
   next (x: T): void;
 
