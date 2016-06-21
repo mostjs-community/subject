@@ -86,5 +86,25 @@ describe('subject()', () => {
       stream.complete()
       stream.next(1)
     })
+
+    it('should support transient use as a signal stream', done => {
+      const stream = subject()
+      const signalStream = subject()
+
+      const observeUntilSignal = () => stream
+        .until(signalStream)
+        .observe(() => {})
+
+      observeUntilSignal()
+        .then(() => {
+          const promiseToEnd = observeUntilSignal()
+          signalStream.next()
+          return promiseToEnd
+        })
+        .then(done)
+        .catch(assert.fail)
+
+      signalStream.next()
+    })
   })
 })
