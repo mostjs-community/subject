@@ -14,11 +14,14 @@ export interface SubjectSource<T> extends Source<T> {
 export class BasicSubjectSource<T> implements SubjectSource<T> {
   protected scheduler: Scheduler = defaultScheduler;
   protected sinks: Sink<T>[] = [];
-  protected active: boolean = true;
+  protected active: boolean = false;
 
   run (sink: Sink<T>, scheduler: Scheduler): Disposable<T> {
     const n = this.add(sink);
-    if (n === 1) this.scheduler = scheduler;
+    if (n === 1) {
+      this.scheduler = scheduler;
+      this.active = true;
+    }
     return new SubjectDisposable<T>(this, sink);
   }
 
@@ -48,14 +51,14 @@ export class BasicSubjectSource<T> implements SubjectSource<T> {
   error (err: Error): void {
     if (!this.active || this.scheduler === void 0) return;
 
-    this.active = false;
+    this._dispose();
     this._error(this.scheduler.now(), err);
   }
 
   complete (value?: T): void {
     if (!this.active || this.scheduler === void 0) return;
 
-    this.active = false;
+    this._dispose();
     this._complete(this.scheduler.now(), value);
   }
 

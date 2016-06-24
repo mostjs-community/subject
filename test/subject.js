@@ -75,7 +75,7 @@ describe('subject()', () => {
       stream.complete()
     })
 
-    it('should not allow events after end', done => {
+    it('should not notify existing observers after end', done => {
       const stream = subject()
 
       stream
@@ -85,6 +85,53 @@ describe('subject()', () => {
 
       stream.complete()
       stream.next(1)
+    })
+
+    it('should not notify existing observers after error', done => {
+      const stream = subject()
+
+      stream
+        .forEach(assert.fail)
+        .then(done, () => done())
+        .catch(assert.fail)
+
+      stream.error(new Error())
+      stream.next(1)
+    })
+
+    it('should allow new observers after end', done => {
+      const stream = subject()
+
+      stream.complete()
+
+      stream
+        .reduce((x, y) => x.concat(y), [])
+        .then(x => assert.deepEqual(x, [1, 2, 3]))
+        .then(done)
+
+      stream.next(1)
+      stream.next(2)
+      stream.next(3)
+
+      stream.complete()
+    })
+
+
+    it('should allow new observers after error', done => {
+      const stream = subject()
+
+      stream.error(new Error())
+
+      stream
+        .reduce((x, y) => x.concat(y), [])
+        .then(x => assert.deepEqual(x, [1, 2, 3]))
+        .then(done)
+
+      stream.next(1)
+      stream.next(2)
+      stream.next(3)
+
+      stream.complete()
     })
 
     it('should support transient use as a signal stream', done => {
