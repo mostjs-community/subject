@@ -13,7 +13,7 @@
     "unit-test": "mocha -r babel-register test/index.js",
     "test": "npm run lib && npm run lint && npm run unit-test",
     "dist": "rimraf dist/ && mkdirp dist && npm run lib && browserify lib/index.js -t babelify -t browserify-shim --standalone mostSubject --exclude most,@most/prelude --outfile dist/most-subject.js && uglifyjs dist/most-subject.js -o dist/most-subject.min.js",
-    "postdist": "git add dist/ && git commit -m 'chore(dist): build dist/'",
+    "postdist": "git add lib/ dist/ && git commit -m 'chore(dist): build dist/'",
     "lib": "rimraf lib/ && mkdirp lib/ && tsc",
     "prepublish": "npm run lib",
     "prerelease": "npm run doc && npm run dist && npm run changelog",
