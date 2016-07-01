@@ -25,6 +25,9 @@ describe('holdSubject', () => {
   it('should allow for adjusting bufferSize of stream', () => {
     const stream = holdSubject(3)
 
+    // Add an observer so the stream begins buffering events
+    stream.observe(() => {})
+
     stream.next(1)
     stream.next(2)
     stream.next(3)
