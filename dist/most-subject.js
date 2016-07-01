@@ -68,11 +68,14 @@ var BasicSubjectSource = function () {
     function BasicSubjectSource() {
         this.scheduler = defaultScheduler;
         this.sinks = [];
-        this.active = true;
+        this.active = false;
     }
     BasicSubjectSource.prototype.run = function (sink, scheduler) {
         var n = this.add(sink);
-        if (n === 1) this.scheduler = scheduler;
+        if (n === 1) {
+            this.scheduler = scheduler;
+            this.active = true;
+        }
         return new SubjectDisposable_1.SubjectDisposable(this, sink);
     };
     BasicSubjectSource.prototype.add = function (sink) {
@@ -95,12 +98,12 @@ var BasicSubjectSource = function () {
     };
     BasicSubjectSource.prototype.error = function (err) {
         if (!this.active || this.scheduler === void 0) return;
-        this.active = false;
+        this._dispose();
         this._error(this.scheduler.now(), err);
     };
     BasicSubjectSource.prototype.complete = function (value) {
         if (!this.active || this.scheduler === void 0) return;
-        this.active = false;
+        this._dispose();
         this._complete(this.scheduler.now(), value);
     };
     BasicSubjectSource.prototype._next = function (time, value) {
