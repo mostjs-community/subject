@@ -1,3 +1,33 @@
+<a name="4.1.2"></a>
+## [4.1.2](https://github.com/TylorS/most-proxy/compare/v4.1.1...v4.1.2) (2016-07-01)
+
+
+### Bug Fixes
+
+* **SubjectSource:** allow source to be run after being disposed ([9caae7c](https://github.com/TylorS/most-proxy/commit/9caae7c))
+
+
+
+<a name="4.1.1"></a>
+## [4.1.1](https://github.com/TylorS/most-proxy/compare/v4.1.0...v4.1.1) (2016-05-29)
+
+
+
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/TylorS/most-proxy/compare/v4.0.2...v4.1.0) (2016-05-29)
+
+
+### Bug Fixes
+
+* **SubjectSource:** remove hard dep on [@most](https://github.com/most)/prelude ([af42d88](https://github.com/TylorS/most-proxy/commit/af42d88))
+
+
+### Features
+
+* **src:** rewrite in typescript ([1398833](https://github.com/TylorS/most-proxy/commit/1398833))
+
+
+
 <a name="4.0.2"></a>
 ## [4.0.2](https://github.com/TylorS/most-proxy/compare/v4.0.1...v4.0.2) (2016-05-17)
 
