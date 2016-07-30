@@ -25,9 +25,12 @@ export class HoldSubjectSource<T> extends BasicSubjectSource<T> {
   }
 
   next (value: T) {
-    if (!this.active || this.scheduler === void 0) { return; }
+    if (this.scheduler === void 0) { return; }
     const time = this.scheduler.now();
     this.buffer = dropAndAppend({time, value}, this.buffer, this.bufferSize);
-    this._next(time, value);
+
+    if (this.active) {
+      this._next(time, value);
+    }
   }
 }
