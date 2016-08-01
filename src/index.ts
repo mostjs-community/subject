@@ -3,7 +3,7 @@ import {Stream} from 'most';
 import {BasicSubjectSource, SubjectSource} from './SubjectSource';
 import {HoldSubjectSource} from './HoldSubjectSource';
 
-export {SubjectSource};
+export {SubjectSource, BasicSubjectSource, HoldSubjectSource};
 
 export function subject<T>() {
   return new Subject<T>(new BasicSubjectSource<T>());
