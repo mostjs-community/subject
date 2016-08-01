@@ -1,6 +1,6 @@
 {
   "name": "most-subject",
-  "version": "4.1.2",
+  "version": "4.1.3",
   "description": "Subjects for most.js",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -35,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TylorS/most-proxy.git"
+    "url": "git+https://github.com/mostjs-community/most-subject.git"
   },
   "keywords": [
     "most.js",
@@ -44,9 +44,9 @@
   "author": "Tylor Steinberger <tlsteinberger167@gmail.com> (github.com/TylorS)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TylorS/most-proxy/issues"
+    "url": "https://github.com/mostjs-community/most-subject/issues"
   },
-  "homepage": "https://github.com/TylorS/most-proxy#readme",
+  "homepage": "https://github.com/mostjs-community/most-subject#readme",
   "devDependencies": {
     "babel-plugin-espower": "^2.1.2",
     "babel-preset-es2015": "^6.9.0",
@@ -71,6 +71,6 @@
     "validate-commit-msg": "^2.6.1"
   },
   "dependencies": {
-    "most": "^0.19.7"
+    "most": "^1.0.0"
   }
 }
