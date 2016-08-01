@@ -9,24 +9,36 @@ describe('holdSubject', () => {
     })
   })
 
-  it('should replay the last value', () => {
+  it('should buffer with consumer and replay last value', () => {
     const stream = holdSubject()
+
+    stream.observe(() => {})
+
     stream.next(1)
     stream.next(2)
 
-    setTimeout(() => stream.complete(), 10)
+    setTimeout(() => stream.complete())
 
-    return stream.forEach(x => {
-      assert.strictEqual(x, 2)
-    })
+    return stream
+      .reduce((x, y) => x.concat(y), [])
+      .then(x => assert.deepEqual(x, [ 2 ]))
+  })
 
+  it('should buffer without consumer and replay last value', () => {
+    const stream = holdSubject()
+
+    stream.next(1)
+    stream.next(2)
+
+    setTimeout(() => stream.complete())
+
+    return stream
+      .reduce((x, y) => x.concat(y), [])
+      .then(x => assert.deepEqual(x, [ 2 ]))
   })
 
   it('should allow for adjusting bufferSize of stream', () => {
     const stream = holdSubject(3)
-
-    // Add an observer so the stream begins buffering events
-    stream.observe(() => {})
 
     stream.next(1)
     stream.next(2)
@@ -40,6 +52,5 @@ describe('holdSubject', () => {
       .then(x => {
         assert.deepEqual(x, [2, 3, 4])
       })
-
   })
 })
