@@ -1,76 +1,45 @@
 {
   "name": "most-subject",
   "version": "4.1.3",
-  "description": "Subjects for most.js",
+  "description": "Subject-like interface for most.js",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
-  "scripts": {
-    "doc": "typedoc src/index.ts --excludeNotExported --out doc/ --module commonjs --target ES5 --name 'Most Subject' src/index.ts",
-    "postdoc": "git add doc/ && git commit -m 'chore(docs): build doc/'",
-    "changelog": "conventional-changelog --infile CHANGELOG.md --same-file --release-count 0 --preset angular",
-    "commit": "git-cz",
-    "lint": "tslint -c tslint.json src/*.ts src/**/*.ts",
-    "unit-test": "mocha -r babel-register test/index.js",
-    "test": "npm run lib && npm run lint && npm run unit-test",
-    "dist": "rimraf dist/ && mkdirp dist && npm run lib && browserify lib/index.js -t babelify -t browserify-shim --standalone mostSubject --exclude most,@most/prelude --outfile dist/most-subject.js && uglifyjs dist/most-subject.js -o dist/most-subject.min.js",
-    "postdist": "git add dist/ && git commit -m 'chore(dist): build dist/'",
-    "lib": "rimraf lib/ && mkdirp lib/ && tsc",
-    "prepublish": "npm run lib",
-    "prerelease": "npm run doc && npm run dist && npm run changelog",
-    "release-patch": "npm run prerelease && npm version patch -m \"chore(release): release new version\"",
-    "release-minor": "npm run prerelease && npm version minor -m \"chore(release): release new version\"",
-    "release-major": "npm run prerelease && npm version major -m \"chore(release): release new version\""
-  },
-  "browserify-shim": {
-    "most": "global:most",
-    "@most/prelude": "global:mostPrelude"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    },
-    "ghooks": {
-      "commit-msg": "node ./node_modules/.bin/validate-commit-msg"
-    }
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mostjs-community/most-subject.git"
+    "url": "git+https://github.com/TylorS/most-subject.git"
   },
-  "keywords": [
-    "most.js",
-    "subject"
-  ],
-  "author": "Tylor Steinberger <tlsteinberger167@gmail.com> (github.com/TylorS)",
+  "author": "Tylor Steinberger <tlsteinberger167@gmail.com> (https://github.com/TylorS)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mostjs-community/most-subject/issues"
   },
   "homepage": "https://github.com/mostjs-community/most-subject#readme",
-  "devDependencies": {
-    "babel-plugin-espower": "^2.1.2",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-register": "^6.9.0",
-    "babelify": "^7.3.0",
-    "browserify": "^13.0.1",
-    "browserify-shim": "^3.8.12",
-    "commitizen": "^2.8.1",
-    "conventional-changelog": "^1.1.0",
-    "conventional-changelog-cli": "^1.2.0",
-    "cz-conventional-changelog": "^1.1.6",
-    "ghooks": "^1.2.1",
-    "mkdirp": "^0.5.1",
-    "mocha": "^2.5.3",
-    "power-assert": "^1.4.1",
-    "rimraf": "^2.5.2",
-    "tslint": "^3.10.2",
-    "typedoc": "^0.3.12",
-    "typescript": "^1.8.10",
-    "typings": "^1.0.4",
-    "uglify-js": "^2.6.2",
-    "validate-commit-msg": "^2.6.1"
+  "config": {
+    "ghooks": {
+      "commit-msg": "node ./node_modules/.bin/validate-commit-msg"
+    },
+    "validate-commit-msg": {
+      "types": "@northbrook/commit-types"
+    }
   },
-  "dependencies": {
-    "most": "^1.0.0"
+  "scripts": {
+    "clean": "rm -rf ./*.js ./*.js.map ./*.d.ts sync",
+    "lint": "northbrook tslint",
+    "test:unit": "northbrook ts-mocha",
+    "test": "npm run lint && npm run test:unit",
+    "build": "tsc",
+    "commit": "northbrook commit",
+    "preversion": "npm run build",
+    "release": "northbrook release"
+  },
+  "devDependencies": {
+    "@northbrook/preset-ts-mocha": "^1.2.1",
+    "northbrook": "^2.2.6",
+    "tslint": "^3.15.1",
+    "typescript": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@most/multicast": "^1.2.3",
+    "most": "^1.0.1"
   }
 }

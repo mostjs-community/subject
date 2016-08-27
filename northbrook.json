@@ -1,0 +1,6 @@
+{
+  "packages": ["."],
+  "plugins": [
+    "preset-ts-mocha"
+  ]
+}

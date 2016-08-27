@@ -1,35 +1,35 @@
-import {Stream} from 'most';
+import { Stream, never, multicast } from 'most';
+import { MulticastSource } from '@most/multicast';
 
-import {BasicSubjectSource, SubjectSource} from './SubjectSource';
-import {HoldSubjectSource} from './HoldSubjectSource';
+import { Subject } from './Subject';
+import { HoldSource } from './HoldSource';
 
-export {SubjectSource, BasicSubjectSource, HoldSubjectSource};
+export { Subject };
 
-export function subject<T>() {
-  return new Subject<T>(new BasicSubjectSource<T>());
+// create a Subject 
+export function subject<T>(): Subject<T> {
+  return asSubject<T>(never());
 }
 
-export function holdSubject<T>(bufferSize: number = 1) {
+// upgrade a stream to be a Subject
+export function asSubject<T>(stream: Stream<T>): Subject<T> {
+  return new Subject<T>(multicast(stream).source as MulticastSource<T>);
+}
+
+// create a HoldSubject
+export function holdSubject<T>(bufferSize: number = 1): Subject<T> {
   if (bufferSize <= 0) {
-    throw new Error('bufferSize must be an integer 1 or greater');
+    throw new Error('bufferSize must be an integer greater than or equal to 1');
   }
-  return new Subject<T>(new HoldSubjectSource<T>(bufferSize));
+  return asHoldSubject<T>(never(), bufferSize);
 }
 
-export class Subject<T> extends Stream<T> {
-  constructor(source: SubjectSource<T>) {
-    super(source);
-  }
-
-  next (value: T) {
-    (<SubjectSource<T>> this.source).next(value);
-  }
-
-  error(err: Error) {
-    (<SubjectSource<T>> this.source).error(err);
-  }
-
-  complete(value: T) {
-    (<SubjectSource<T>> this.source).complete(value);
-  }
+// upgrade a stream to be a HoldSubject
+export function asHoldSubject<T>(stream: Stream<T>, bufferSize: number = 1): Subject<T> {
+  return new Subject<T>(new HoldSource<T>(
+    stream.source instanceof MulticastSource
+      ? (stream.source as any).source
+      : stream.source
+    , bufferSize
+  ));
 }

@@ -6,3 +6,8 @@ npm-debug.log
 
 lib/
 coverage/
+
+./*.js
+./*.js.map
+./*.d.ts
+sync/
