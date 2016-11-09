@@ -1,7 +1,6 @@
 import { curry2 } from '@most/prelude';
 
 import { Subject, HoldSubject } from '../interfaces';
-import { sync, hold } from '../';
 
 export const next: NextFn = curry2<any, Subject<any> | HoldSubject<any>, Subject<any> | HoldSubject<any>>(
   function next (value: any, subject: Subject<any> | HoldSubject<any>) {
