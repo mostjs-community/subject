@@ -1,13 +1,8 @@
 # Most Subject [![Build Status](https://travis-ci.org/TylorS/most-subject.svg?branch=master)](https://travis-ci.org/TylorS/most-subject) [![npm version](https://badge.fury.io/js/most-subject.svg)](https://badge.fury.io/js/most-subject)
 
-Subject interface for [most](https://github.com/cujojs/most)
+Subject interfaces for [most](https://github.com/cujojs/most)
 
 ## API Documentation
-
-###### Apologies the documentation generator I used sucks, and gh-pages hates it. Will search for something better soon.
-~~To find the API documentation follow [this link](https://tylors.github.io/most-subject/doc)!~~
-
-## Handwitten Documentation :)
 
 ###### **Subject**
 
@@ -15,115 +10,257 @@ A Subject is a normal most.js
 [Stream](https://github.com/cujojs/most/wiki/Concepts#streams), with 3 added methods,
 which allow for imperative calls to events, errors, and completion. This library was
 created out of need for them for [motorcycle.js](https://github.com/motorcyclejs) and
-the need to create circular dependencies. I would strongly urge you to find a way to
-create a custom Stream factory using the standard most.js architectural patterns before
-deferring to this library. We would love to help you in the
-[most.js gitter room](https://gitter.im/cujojs/most).
+the need to create circular dependencies. The original author of most.js, and I,
+would strongly urge you to find a way to create a custom Stream factory using
+the standard most.js architectural patterns before deferring to this library.
+We would love to help you in the [most.js gitter room](https://gitter.im/cujojs/most).
 
-You're still here? Okay, so maybe you actually need to use a Subject for a good reason.
+You're still here? Okay, so maybe you need to use a Subject for a good reason.
 I'll define the interfaces that are used by this library. The notation here is that
 which is used by TypeScript. For the types that are not defined here please see
 [this](https://github.com/cujojs/most/wiki/Architecture) on the most.js Architecture.
 
 ```typescript
-class Subject<T> extends Stream<T> {
-  constructor(source: SubjectSource<T>) {
-    super(source);
-  }
+interface Subject<T> extends Stream<T> {
+  source: Source<T> & Sink<T>;
 
-  next (x: T) {
-    this.source.next(x);
-  };
-
-  error (e: Error) {
-    this.source.error(e);
-  }
-
-  complete (x?: T) {
-    this.source.complete(x);
-  }
+  next (value: T): Subject<T>
+  error <Err extends Error> (err: Err): Subject<T>;
+  complete (value?: T): Subject<T>;
 }
 
-interface SubjectSource<T> extends Source<T> {
+interface HoldSubject<T> extends Subject<T> {
+  source: HoldSubjectSource<T>;
 
-  run (sink: Sink<T>, scheduler: Scheduler): Disposable<T>;
-
-  next (x: T): void;
-
-  error (e: Error): void;
-
-  complete (x?: T): void;
+  next (value: T): HoldSubject<T>
+  error <Err extends Error> (err: Err): HoldSubject<T>;
+  complete (value?: T): HoldSubject<T>;
 }
 ```
 
-Okay so here, we have the actual implementation of the Subject class, and the interface
-it expects the `source` it is passed to look like. The actual implementation of
-the `SubjectSource` is up to the developer and can do absolutely anything you desire it
-to do. However, I had some ideas of what you might need by default, and have provided 2
-factory functions to help you out, and they have been the basis of things I personally
-have needed in practice.
+Okay so here, we have the interfaces that define was a Subject *is*. It is an
+Stream with a `source` property that satifies both the `Source` and `Sink` interface,
+like that of `MulticastSource` from [`@most/multicast`](https://github.com/mostjs/multicast).
+A Subject also have 3 methods to allow imperatively pushing values into the underlying
+stream.
 
-*Side Note: I'm always open to suggestions and PR's are graciously appreciated please
-raise and issue if there is something you've yet to find, or need help with.*
+The reason for the distinction between a Subject and a HoldSubject are solely for
+typescript users looking for the best typings they can get :smile:
 
-**`subject<T>(): Subject<T>`**
+Let us take a look at some of the functions provided by this library.
 
-This is the most basic Subject provided by this library. It creates a Subject
-that emits events **synchronously**. This is important to realize, because this
-means that it is up to **you the developer** to take care of race conditions and
-to realize that there is a possibility of missing events.
+### Subjects
 
-Here's a basic example of usage:
-```js
-import {subject} from 'most-subject'
+#### `async<T>(): Subject<T>`
 
-const stream = subject()
+This function here, creates a Subject, who will produce it's values asynchonously.
+The asynchony is important to note here. Most.js itself ensures that **no** events
+can occur while it is being instantiated via `.observe()` and related operators that
+"attach" listeners.
 
-stream
-  .map(x => x * 2)
-  .observe(x => console.log(x))
+**Example**
 
-stream.next(1)
-stream.next(2)
-stream.next(3)
-stream.complete()
+```typescript
+import { async, Subject } from 'most-subject';
+
+const subject: Subject<number> = async<number>();
+
+subject.observe(x => console.log(x)) // 1, 2, 3
+
+subject.next(1);
+subject
+  .next(2)
+  .next(3)
+  .complete();
+
 ```
 
-Here's this example as a [webpackbin](http://www.webpackbin.com/Nk39EugE-) for you to give this quick try.
+#### `sync<T>(): Subject<T>`
 
-One last thing about this Subject type, is it is
-[`multicast()`](https://github.com/cujojs/most/blob/master/docs/api.md#multicast)
-to efficiently share this events with multiple listeners.
+This function here, will create Subject that will emit it's values synchronously.
+This is provided to add backwards compatiblity with theoretical edge cases applications
+may have been built on in previous versions.
 
-**`holdSubject<T>(bufferSize: number): Subject<T>`**
+```typescript
+import { sync } from 'most-subject';
 
-This is minor variation of the previous factory function. The difference here is
-it creates a Subject which has an internal buffer of `bufferSize` size and will
-replay the buffer to every listener to that is added. This Subject is also shared
-efficiently to listeners via multicasting.
+const subject = sync();
 
-Here's a quick basic usage of this factory function
+subject.observe(x => console.log(x)); // 1, 2, 3
 
-```js
-const {holdSubject} from 'most-subject'
+subject.next(1);
+subject.next(2).next(3);
 
-const stream = holdSubject(3)
-
-stream.next(1)
-stream.next(2)
-stream.next(3)
-stream.next(4)
-
-stream.observe(x => console.log(x))
+// note this setTimeout will be required
+// to ensure the previous events are ever emitted
+setTimeout(() => subject.complete());
 ```
 
-Do you have an idea of what this will output? Check this
-[webpackbin](http://www.webpackbin.com/EJ-yudgVW) to see if you're correct!
+### Combinators
 
-In practice I have never needed to use a buffer size greater than 1, but implementation
-of 1 event or multiple events was very similar and I went with the option to be
-slightly more robust if the use case did arise for someone.
+All combinators are curried.
 
-I hope this is a decent starting place for you all, feel free to raise an issue
-if something is not clear or if more information should be added. PR's always
-welcomed.
+#### `hold<T>(bufferSize: number, subject: Subject<T>): HoldSubject<T>`
+
+This function will lift any subject, synchronous or asynchonous, into a HoldSubject.
+A HoldSubject is just like a regular Subject, but it will remember values previously
+emitted for any late subscribers. The number of values it will remember is based on the
+bufferSize amount passed in as the first argument.
+
+```typescript
+import { sync, hold } from 'most-subject';
+
+const holdSubject = hold(1, sync());
+
+holdSubject.next(1);
+holdSubject.next(2);
+
+holdSubject.observe(x => console.log(x)); // 2
+
+setTimeout(() => holdSubject.complete());
+```
+
+#### `next<T> (value: T, subject: Subject<T>): ScheduledTask | void`
+
+This is a functional equivalent to `subject.next(value)`. It will push a value
+into a Subject.
+
+```typescript
+import { next, async } from 'most-subject';
+
+const subject = async();
+
+subject.observe(x => console.log(x)); // 1, 1, 2
+
+subject.next(1);
+// is equivalent to
+next(1, subject);
+
+// curried by default
+const nextTwo = next(2);
+nextTwo(subject);
+
+subject.complete();
+```
+
+#### `error<T> (err: Error, subject: Subject<T>): ScheduledTask | void`
+
+This is a functional equivalent to `subject.error(Error)`. It will push an error
+into a Subject.
+
+```typescript
+import { error, async } from 'most-subject';
+
+const subject = async();
+
+subject.observe(x => console.log(x));
+  .catch(err => console.log(err.message))
+
+subject.error(new Error());
+// is equivalent to
+error(new Error, subject);
+
+// curried by default
+const defaultError = error(new Error('default message'));
+defaultError(subject);
+
+subject.complete();
+```
+
+#### `complete<T> (value: T, subject: Subject<T>): ScheduledTask | void`
+
+This is a functional equivalent to `subject.complete(value)`. It will cause a
+subject to complete with a particular value.
+
+```typescript
+import { complete, async } from 'most-subject';
+
+const subject = asnyc();
+
+subject.complete(1);
+// is equivalent to
+complete(1, subject);
+
+const completeWith1 = complete(1);
+completeWith1(subject);
+```
+
+### "Upgrading" streams
+
+A new feature designed to help with manual stream debugging are 2 functions that
+are able to "lift" most.js Streams into Subjects of your choice.
+
+#### `asSync<T> (stream: Stream<T>): Subject<T>`
+
+Lifts a stream into a synchronously emitting Subject.
+
+```typescript
+import { asSync, next } from 'most-subject';
+
+const subject = asSync(someStream);
+
+next(1, subject);
+```
+
+#### `asAsync<T> (stream: Stream<T>): Subject<T>`
+
+Lifts a stream into an asynchonously emitting Subject.
+
+```typescript
+import { asAsync, next } from 'most-subject';
+
+const subject = asAsync(somStream);
+
+next(1, subject);
+```
+
+### Classes
+
+####`SyncSubject`
+
+SyncSubject is the class instance created when using `sync()` or `asSync(stream)`.
+It must be istantiated using the keyword `new` and takes a single parameter
+`source` which must satisfy the interfaces `Sink` and `Source`.
+
+```typescript
+import { SyncSubject } from 'most-subject'
+import { MulticastSource } from '@most/multicast';
+import { never } from 'most';
+
+// this is effectively what `sync()` creates
+const subject = new SyncSubject(new MulticastSource(never().source));
+```
+
+#### `AsyncSubject`
+
+AsyncSubject is the class instance created when using `async()` or `asAsync(stream)`.
+It must be istantiated using the keyword `new` and takes a single parameter
+`source` which must satisfy the interfaces `Sink` and `Source`.
+
+```typescript
+import { AsyncSubject } from 'most-subject'
+import { MulticastSource } from '@most/multicast';
+import { never } from 'most';
+
+// this is effectively what `async()` creates
+const subject = new ASyncSubject(new MulticastSource(never().source));
+```
+
+#### `HoldSubjectSource`
+
+HoldSubjectSource is the `source` property type of a `HoldSubject`. It is a
+special case that implements both `Sink` and `Source` interfaces, that also remembers
+an arbitrary number of values.
+It must be istantiated using the keyword `new` and takes a two parameters.
+`source` which must satisfy the interface `Source` and `bufferSize` which is of
+type Number and must be an integer greater than or equal to 1.
+
+```typescript
+import { HoldSubjectSource, SyncSubject } from 'most-subject';
+import { never } from 'most';
+
+const source = new HoldSubjectSource(never().source, 1);
+
+// effectively what hold(1, sync()) creates
+const subject = new SyncSubject(source);
+```

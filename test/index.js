@@ -1,2 +1,0 @@
-require('./holdSubject')
-require('./subject')
