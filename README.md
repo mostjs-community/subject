@@ -1,4 +1,4 @@
-# Most Subject [![Build Status](https://travis-ci.org/TylorS/most-subject.svg?branch=master)](https://travis-ci.org/TylorS/most-subject) [![npm version](https://badge.fury.io/js/most-subject.svg)](https://badge.fury.io/js/most-subject)
+# Most Subject [![Build Status](https://travis-ci.org/mostjs-community/most-subject.svg?branch=master)](https://travis-ci.org/TylorS/most-subject) [![npm version](https://badge.fury.io/js/most-subject.svg)](https://badge.fury.io/js/most-subject)
 
 Subject interfaces for [most](https://github.com/cujojs/most)
 
