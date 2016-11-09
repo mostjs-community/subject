@@ -38,14 +38,14 @@ interface HoldSubject<T> extends Subject<T> {
 }
 ```
 
-Okay so here, we have the interfaces that define was a Subject *is*. It is an
-Stream with a `source` property that satifies both the `Source` and `Sink` interface,
+Okay so here, we have the interfaces that define what a Subject *is*. It is a
+Stream with a `source` property that satifies both the `Source` and `Sink` interfaces,
 like that of `MulticastSource` from [`@most/multicast`](https://github.com/mostjs/multicast).
-A Subject also have 3 methods to allow imperatively pushing values into the underlying
-stream.
+A Subject also has 3 methods `next`, `error`, and `complete`
+to allow imperatively pushing values into the underlying stream.
 
 The reason for the distinction between a Subject and a HoldSubject are solely for
-typescript users looking for the best typings they can get :smile:
+TypeScript users looking for the best typings they can get :smile:
 
 Let us take a look at some of the functions provided by this library.
 
@@ -53,8 +53,8 @@ Let us take a look at some of the functions provided by this library.
 
 #### `async<T>(): Subject<T>`
 
-This function here, creates a Subject, who will produce it's values asynchonously.
-The asynchony is important to note here. Most.js itself ensures that **no** events
+This function here, creates a Subject, which will produce its values asynchonously.
+The asynchrony is important to note here. Most.js itself ensures that **no** events
 can occur while it is being instantiated via `.observe()` and related operators that
 "attach" listeners.
 
@@ -77,9 +77,9 @@ subject
 
 #### `sync<T>(): Subject<T>`
 
-This function here, will create Subject that will emit it's values synchronously.
-This is provided to add backwards compatiblity with theoretical edge cases applications
-may have been built on in previous versions.
+This function here, will create Subject that will emit its values synchronously.
+This is provided to add backwards compatiblity with theoretical edge cases
+applications may have been built on in previous versions.
 
 ```typescript
 import { sync } from 'most-subject';
@@ -98,9 +98,9 @@ setTimeout(() => subject.complete());
 
 ### Combinators
 
-All combinators are curried.
+###### All combinators are curried.
 
-#### `hold<T>(bufferSize: number, subject: Subject<T>): HoldSubject<T>`
+#### `hold<T> (bufferSize: number, subject: Subject<T>): HoldSubject<T>`
 
 This function will lift any subject, synchronous or asynchonous, into a HoldSubject.
 A HoldSubject is just like a regular Subject, but it will remember values previously
@@ -120,7 +120,7 @@ holdSubject.observe(x => console.log(x)); // 2
 setTimeout(() => holdSubject.complete());
 ```
 
-#### `next<T> (value: T, subject: Subject<T>): ScheduledTask | void`
+#### `next<T> (value: T, subject: Subject<T>): Subject<T>`
 
 This is a functional equivalent to `subject.next(value)`. It will push a value
 into a Subject.
@@ -143,7 +143,7 @@ nextTwo(subject);
 subject.complete();
 ```
 
-#### `error<T> (err: Error, subject: Subject<T>): ScheduledTask | void`
+#### `error<T> (err: Error, subject: Subject<T>): Subject<T>`
 
 This is a functional equivalent to `subject.error(Error)`. It will push an error
 into a Subject.
@@ -167,7 +167,7 @@ defaultError(subject);
 subject.complete();
 ```
 
-#### `complete<T> (value: T, subject: Subject<T>): ScheduledTask | void`
+#### `complete<T> (value: T, subject: Subject<T>): Subject<T>`
 
 This is a functional equivalent to `subject.complete(value)`. It will cause a
 subject to complete with a particular value.
@@ -243,7 +243,7 @@ import { MulticastSource } from '@most/multicast';
 import { never } from 'most';
 
 // this is effectively what `async()` creates
-const subject = new ASyncSubject(new MulticastSource(never().source));
+const subject = new AsyncSubject(new MulticastSource(never().source));
 ```
 
 #### `HoldSubjectSource`
