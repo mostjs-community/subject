@@ -1,22 +1,21 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "lib": [
-      "dom",
-      "es5",
-      "es2015"
-    ],
     "moduleResolution": "node",
-    "module": "es2015",
-    "target": "es2015",
+    "module": "commonjs",
+    "target": "es5",
     "noImplicitAny": true,
     "sourceMap": true,
     "noUnusedParameters": true,
     "strictNullChecks": true,
-    "outDir": "lib/es2015"
+    "types": [
+      "mocha",
+      "node"
+    ]
   },
-  "files": [
-    "./custom-typings/most.d.ts",
-    "src/index.ts"
+  "include": [
+    "../custom-typings/most.d.ts",
+    "../src/**/*.ts",
+    "./**/*.ts"
   ]
 }
