@@ -1,6 +1,7 @@
 import { curry2 } from '@most/prelude';
 
 import { Subject, HoldSubject } from '../interfaces';
+import { sync, hold } from '../';
 
 export const next: NextFn = curry2<any, Subject<any> | HoldSubject<any>, Subject<any> | HoldSubject<any>>(
   function next (value: any, subject: Subject<any> | HoldSubject<any>) {
@@ -9,13 +10,17 @@ export const next: NextFn = curry2<any, Subject<any> | HoldSubject<any>, Subject
 ) as NextFn;
 
 export interface NextFn {
-  (value: any, subject: Subject<any> | HoldSubject<any>): Subject<any> | HoldSubject<any>;
-  <T>(value: T, subject: Subject<T> | HoldSubject<T>): Subject<T> | HoldSubject<T>;
+  (value: any, holdSubject: HoldSubject<any>): HoldSubject<any>;
+  (value: any, subject: Subject<any>): Subject<any>;
+
+  <T>(value: T, holdSubject: HoldSubject<T>): HoldSubject<T>;
+  <T>(vlaue: T, subject: Subject<T>): Subject<T>;
 
   (value: any): CurriedNextFn<any>;
   <T>(value: T): CurriedNextFn<T>;
 }
 
 export interface CurriedNextFn<T> {
-  (subject: Subject<T> | HoldSubject<T>): Subject<T> | HoldSubject<T>;
+  (holdSubject: HoldSubject<T>): HoldSubject<T>;
+  (subject: Subject<T>): Subject<T>;
 }

@@ -9,13 +9,17 @@ export const complete: CompleteFn = curry2<any, Subject<any> | HoldSubject<any>,
 ) as CompleteFn;
 
 export interface CompleteFn {
-  (value: any, subject: Subject<any> | HoldSubject<any>): Subject<any> | HoldSubject<any>;
-  <T>(value: T, subject: Subject<T> | HoldSubject<T>): Subject<T> | HoldSubject<T>;
+  (value: any, holdSubject: HoldSubject<any>): HoldSubject<any>;
+  <T>(value: T, holdSubject: HoldSubject<T>): HoldSubject<T>;
+
+  (value: any, subject: Subject<any>): Subject<any>;
+  <T>(value: T, subject: Subject<T>): Subject<T>;
 
   (value: any): CurriedCompleteFn<any>;
   <T>(value: T): CurriedCompleteFn<T>;
 }
 
 export interface CurriedCompleteFn<T> {
-  (subject: Subject<T> | HoldSubject<T>): Subject<T> | HoldSubject<T>;
+  (holdSubject: HoldSubject<T>): HoldSubject<T>;
+  (subject: Subject<T>): Subject<T>;
 }

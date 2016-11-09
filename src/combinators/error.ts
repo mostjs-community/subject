@@ -9,13 +9,16 @@ export const error: ErrorFn = curry2<Error, Subject<any> | HoldSubject<any>, Sub
 ) as ErrorFn;
 
 export interface ErrorFn {
-  <Err extends Error>(err: Err, subject: Subject<any> | HoldSubject<any>): Subject<any> | HoldSubject<any>;
-  <Err extends Error, T>(err: Err, subject: Subject<T> | HoldSubject<T>): Subject<T> | HoldSubject<T>;
+  <Err extends Error>(err: Err, holdSubject: HoldSubject<any>): HoldSubject<any>;
+  <Err extends Error>(err: Err, subject: Subject<any>): Subject<any>;
+  <Err extends Error, T>(err: Err, holdSubject: HoldSubject<T>): HoldSubject<T>;
+  <Err extends Error, T>(err: Err, subject: Subject<T>): Subject<T>;
 
   <Err extends Error>(err: Err): CurriedErrorFn<any>;
   <Err extends Error, T>(err: Err): CurriedErrorFn<T>;
 }
 
 export interface CurriedErrorFn<T> {
-  (subject: Subject<T> | HoldSubject<T>): Subject<T> | HoldSubject<T>;
+  (holdSubject: HoldSubject<T>): HoldSubject<T>;
+  (subject: Subject<T>): HoldSubject<T>;
 }
