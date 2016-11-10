@@ -20,5 +20,5 @@ export interface ErrorFn {
 
 export interface CurriedErrorFn<T> {
   (holdSubject: HoldSubject<T>): HoldSubject<T>;
-  (subject: Subject<T>): HoldSubject<T>;
+  (subject: Subject<T>): Subject<T>;
 }
