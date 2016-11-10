@@ -53,7 +53,7 @@ Let us take a look at some of the functions provided by this library.
 
 #### `async<T>(): Subject<T>`
 
-This function here, creates a Subject, which will produce its values asynchonously.
+This function here creates a Subject, which will produce its values asynchonously.
 The asynchrony is important to note here. Most.js itself ensures that **no** events
 can occur while it is being instantiated via `.observe()` and related operators that
 "attach" listeners.
@@ -77,7 +77,7 @@ subject
 
 #### `sync<T>(): Subject<T>`
 
-This function here, will create Subject that will emit its values synchronously.
+This function here will create Subject that will emit its values synchronously.
 This is provided to add backwards compatiblity with theoretical edge cases
 applications may have been built on in previous versions.
 
