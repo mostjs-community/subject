@@ -1,3 +1,13 @@
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/mostjs-community/most-subject/compare/v5.0.0...v5.1.0) (2016-11-10)
+
+
+### Bug Fixes
+
+* **error:** fix type signature ([4534e42](https://github.com/mostjs-community/most-subject/commit/4534e42))
+
+
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/mostjs-community/most-subject/compare/v4.1.1...v5.0.0) (2016-11-09)
 
