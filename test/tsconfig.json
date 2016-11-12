@@ -14,7 +14,6 @@
     ]
   },
   "include": [
-    "../custom-typings/most.d.ts",
     "../src/**/*.ts",
     "./**/*.ts"
   ]

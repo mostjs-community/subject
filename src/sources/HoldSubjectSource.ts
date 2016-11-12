@@ -1,5 +1,4 @@
-import { Sink, Source } from 'most';
-import defaultScheduler from 'most/lib/scheduler/defaultScheduler';
+import { Sink, Source, defaultScheduler } from 'most';
 import { MulticastSource } from '@most/multicast';
 import { append, drop } from '@most/prelude';
 

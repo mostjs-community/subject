@@ -1,6 +1,4 @@
-import { Stream, Source, Sink, never } from 'most';
-import scheduler from 'most/lib/scheduler/defaultScheduler';
-import PropagateTask from 'most/lib/scheduler/PropagateTask';
+import { Stream, Source, Sink, never, defaultScheduler, PropagateTask } from 'most';
 import { MulticastSource } from '@most/multicast';
 
 import { Subject } from '../../interfaces';
@@ -21,17 +19,17 @@ export class AsyncSubject<T> extends Stream<T> implements Subject<T> {
   }
 
   public next (value: T) {
-    scheduler.asap(PropagateTask.event(value, this.source));
+    defaultScheduler.asap(PropagateTask.event(value, this.source));
     return this;
   }
 
   public error <Err extends Error> (err: Err) {
-    scheduler.asap(PropagateTask.error(err, this.source));
+    defaultScheduler.asap(PropagateTask.error(err, this.source));
     return this;
   }
 
   public complete (value?: T) {
-    scheduler.asap(PropagateTask.end(value as T, this.source));
+    defaultScheduler.asap(PropagateTask.end(value as T, this.source));
     return this;
   }
 }
