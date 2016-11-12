@@ -1,5 +1,4 @@
-import { Stream, Source, Sink, never } from 'most';
-import scheduler from 'most/lib/scheduler/defaultScheduler';
+import { Stream, Source, Sink, never, defaultScheduler as scheduler } from 'most';
 import { MulticastSource } from '@most/multicast';
 
 import { Subject } from '../../interfaces';

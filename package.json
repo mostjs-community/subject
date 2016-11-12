@@ -61,6 +61,6 @@
   "dependencies": {
     "@most/multicast": "^1.2.4",
     "@most/prelude": "^1.4.1",
-    "most": "^1.0.5"
+    "most": "^1.1.0"
   }
 }
