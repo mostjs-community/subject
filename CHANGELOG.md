@@ -1,3 +1,8 @@
+<a name="5.2.0"></a>
+# [5.2.0](https://github.com/mostjs-community/most-subject/compare/v5.1.0...v5.2.0) (2016-11-12)
+
+
+
 <a name="5.1.0"></a>
 # [5.1.0](https://github.com/mostjs-community/most-subject/compare/v5.0.0...v5.1.0) (2016-11-10)
 
