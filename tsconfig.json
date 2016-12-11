@@ -8,7 +8,7 @@
     ],
     "moduleResolution": "node",
     "module": "es2015",
-    "target": "es2015",
+    "target": "es5",
     "noImplicitAny": true,
     "sourceMap": true,
     "noUnusedParameters": true,
