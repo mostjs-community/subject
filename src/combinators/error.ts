@@ -1,21 +1,21 @@
+import { HoldSubject, Subject } from '../interfaces';
+
 import { curry2 } from '@most/prelude';
 
-import { Subject, HoldSubject } from '../interfaces';
-
-export const error: ErrorFn = curry2<Error, Subject<any> | HoldSubject<any>, Subject<any> | HoldSubject<any>>(
+export const error: ErrorFn = curry2(
   function error <Err extends Error> (err: Err, subject: Subject<any> | HoldSubject<any>) {
     return (subject as any).error(err);
-  }
-) as ErrorFn;
+  },
+);
 
 export interface ErrorFn {
-  <Err extends Error>(err: Err, holdSubject: HoldSubject<any>): HoldSubject<any>;
-  <Err extends Error>(err: Err, subject: Subject<any>): Subject<any>;
-  <Err extends Error, T>(err: Err, holdSubject: HoldSubject<T>): HoldSubject<T>;
-  <Err extends Error, T>(err: Err, subject: Subject<T>): Subject<T>;
+  <T>(err: any, holdSubject: HoldSubject<T>): HoldSubject<T>;
+  <T>(err: any, subject: Subject<T>): Subject<T>;
+  <T>(err: any): CurriedErrorFn<T>;
 
-  <Err extends Error>(err: Err): CurriedErrorFn<any>;
-  <Err extends Error, T>(err: Err): CurriedErrorFn<T>;
+  (err: any, holdSubject: HoldSubject<any>): HoldSubject<any>;
+  (err: any, subject: Subject<any>): Subject<any>;
+  (err: any): CurriedErrorFn<any>;
 }
 
 export interface CurriedErrorFn<T> {

@@ -140,7 +140,6 @@ describe('sync()', () => {
   });
 });
 
-
 describe('hold', () => {
   it('should buffer previous events', (done) => {
     const stream = hold(2, sync<number>());
