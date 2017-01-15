@@ -1,6 +1,8 @@
 import * as assert from 'assert';
+
+import { async, complete, error, hold, next, sync } from './';
+
 import { Stream } from 'most';
-import { sync, hold, async, next, error, complete } from '../src';
 
 describe('sync()', () => {
   it('should be an extension of Stream', () => {

@@ -1,19 +1,16 @@
 {
   "compilerOptions": {
-    "declaration": true,
     "lib": [
       "dom",
       "es5",
       "es2015"
     ],
+    "declaration": true,
     "moduleResolution": "node",
-    "module": "es2015",
-    "target": "es5",
     "noImplicitAny": true,
     "sourceMap": true,
     "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "outDir": "lib/es2015"
+    "strictNullChecks": true
   },
   "files": [
     "src/index.ts"
