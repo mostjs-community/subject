@@ -2,16 +2,16 @@
   "name": "most-subject",
   "version": "5.3.0",
   "description": "Subjects for most.js",
-  "main": "lib/commonjs/index.js",
-  "module": "lib/es2015/index.js",
-  "jsnext:main": "lib/es2015/index.js",
-  "typings": "lib/es2015/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib.es2015/index.js",
+  "jsnext:main": "lib.es2015/index.js",
+  "typings": "lib.es2015/index.d.ts",
   "scripts": {
     "test:lint": "northbrook tslint",
     "test:unit": "northbrook mocha",
     "test": "npm run test:lint && npm run test:unit",
     "commit": "northbrook commit",
-    "build": "northbrook tsc",
+    "build": "northbrook tsc && northbrook rollup && babili dist/most-subject.js -o dist/most-subject.min.js",
     "preversion": "npm run build",
     "release": "northbrook release"
   },
@@ -37,9 +37,12 @@
     "@northbrook/tslint": "^2.1.5",
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.46",
+    "babili": "0.0.9",
     "mocha": "^3.1.2",
     "northbrook": "^4.4.1",
-    "uglify-js": "^2.7.4"
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-typescript": "^0.8.1",
+    "typescript": "^2.1.5"
   },
   "dependencies": {
     "@most/multicast": "^1.2.5",
