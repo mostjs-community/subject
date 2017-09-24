@@ -13,10 +13,12 @@
   "devDependencies": {
     "@typed/test": "2.5.0",
     "@types/node": "8.0.30",
+    "conventional-changelog-cli": "1.3.3",
     "husky": "0.14.3",
     "lint-staged": "4.2.2",
     "prettier": "1.7.0",
-    "typescript": "2.5.2"
+    "typescript": "2.5.2",
+    "validate-commit-message": "3.0.1"
   },
   "dependencies": {
     "@most/core": "0.13.0",
@@ -33,7 +35,9 @@
     "build": "yarn build:commonjs && yarn build:es2015",
     "build:commonjs": "tsc -P .config/tsconfig.commonjs.json",
     "build:es2015": "tsc -P .config/tsconfig.es2015.json",
-    "postversion": "git push origin master --tags && npm publish --access=public",
+    "changelog": "conventional-changelog -i CHANGELOG.md -s -r 0 -p angular && git add CHANGELOG.md && git commit -m 'docs(CHANGELOG): amend changelog'",
+    "commitmsg": "validate-commit-msg",
+    "postversion": "yarn changelog && git push origin master --tags && npm publish --access=public",
     "precommit": "lint-staged",
     "preversion": "yarn test && yarn build",
     "release:major": "npm version major -m 'chore(package): v%s'",

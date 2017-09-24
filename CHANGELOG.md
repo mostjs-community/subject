@@ -1,15 +1,3 @@
-<a name="0.0.0"></a>
-# [0.0.0](https://github.com/mostjs-community/subject/compare/v5.3.0...v0.0.0) (2017-09-24)
-
-
-### Features
-
-* integrate proxy behavior ([300dd24](https://github.com/mostjs-community/subject/commit/300dd24))
-* start fresh ([7f4f669](https://github.com/mostjs-community/subject/commit/7f4f669))
-* upgrade compatibility for [@most](https://github.com/most)/core ([82eaa8f](https://github.com/mostjs-community/subject/commit/82eaa8f))
-
-
-
 <a name="5.3.0"></a>
 # [5.3.0](https://github.com/mostjs-community/subject/compare/v5.2.0...v5.3.0) (2016-12-11)
 
