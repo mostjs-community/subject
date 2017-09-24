@@ -84,14 +84,24 @@ attach(origin)
 
 </details>
 
-#### event<A>(time: Time, value: A, sink: Sink<A>): void
+#### event\<A\>(time: Time, value: A, sink: Sink\<A\>): void
 
 A curried function for calling `Sink.event(time, value)`
 
-#### error(time: Time, error: Error, sink: Sink<any>): void
+#### error(time: Time, error: Error, sink: Sink\<any\>): void
 
 A curried function for calling `Sink.error(time, error)`
 
-#### end(time: Time, sink: Sink<any>): void
+#### end(time: Time, sink: Sink\<any\>): void
 
 A curried function for calling `Sink.end(time)`
+
+#### AttachSink\<A\>
+
+```typescript
+import { Sink } from '@most/types'
+
+export AttachSink<A> extends Sink<A> {
+  attach(stream: Stream<A>): Stream<A>
+}
+```
