@@ -1,9 +1,0 @@
-.idea/
-*.sublime*
-
-node_modules
-npm-debug.log
-
-lib/
-lib.es2015/
-coverage/
