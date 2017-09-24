@@ -58,7 +58,7 @@ memory leaks.
 WARNING: There is no logic for breaking infinite loops
 
 <details>
-  <summary>See an example<summary>
+  <summary>See an example</summary>
 
 ```typescript
 import { Stream } from '@most/types'
