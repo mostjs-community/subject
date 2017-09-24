@@ -75,7 +75,7 @@ const [ sink, stream ] = create<number>()
 
 // listen to our stream
 // will log "1", "2", and "3"
-runEffects(tap(console.log, stream), scheduler)
+runEffects(tap(console.log, take(3, stream)), scheduler)
 
 const origin = scan(x => x + 1, 0, periodic(100))
 
