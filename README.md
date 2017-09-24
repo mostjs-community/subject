@@ -14,10 +14,10 @@ npm install --save most-subject
 #### create\<A\>(): [AttachSink\<A\>, Stream\<A\>]
 #### create\<A, B\>(f: (stream: Stream\<A\>) =\> B): [AttachSink\<A\>, B]
 
-Returns an tuple containing a `Sink` and a `Stream`. `Sink` can be 
-used to imperatively control the events following through the `Stream`. 
-Optionally a function can be applied to `Stream` and the return value of that 
-function will be returned as the second tuple value. 
+Returns an tuple containing a `AttachSink` and a `Stream`. `AttachSink` can be 
+used to imperatively control the events following through the `Stream` or 
+declaratively using `attach`. Optionally a function can be applied to `Stream` 
+and the return value of that function will be returned as the second tuple value. 
 
 <details>
   <summary>See an example</summary>
