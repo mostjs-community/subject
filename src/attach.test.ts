@@ -31,14 +31,14 @@ export const test: Test = describe(`attach`, [
       return promise.then(equal(expected))
     }),
 
-    it(`can be attached to itself (no memory leak)`, (assert, done) => {
+    it(`does not have a memory leak`, ({ notOk }, done) => {
       const scheduler = newDefaultScheduler()
       const [sink, stream] = create<number>()
 
       function makeAssertions(currentValue: number) {
         if (currentValue === 8) Promise.resolve(void 0).then(done)
 
-        assert.notOk(currentValue > 8)
+        notOk(currentValue > 8)
       }
 
       const origin = map(x => x * 2, startWith(1, tap(makeAssertions, stream)))
