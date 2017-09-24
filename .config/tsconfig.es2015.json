@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": [
+      "es5",
+      "es2015"
+    ],
+    "target": "es5",
+    "moduleResolution": "node",
+    "module": "es2015",
+    "declaration": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "outDir": "../lib.es2015"
+  },
+  "exclude": [
+    "../src/**/*.test.ts"
+  ]
+}

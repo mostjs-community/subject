@@ -1,0 +1,43 @@
+{
+  "name": "most-subject",
+  "description": "Subjects for @most/core",
+  "repository": "https://github.com/mostjs-community/subject",
+  "version": "0.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "typings": "lib/index.d.ts",
+  "jsnext:main": "lib.es2015/index.js",
+  "module": "lib.es2015/index.js",
+  "author": "Tylor Steinberger <tlsteinberger167@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@typed/test": "2.5.0",
+    "@types/node": "8.0.30",
+    "husky": "0.14.3",
+    "lint-staged": "4.2.2",
+    "prettier": "1.7.0",
+    "typescript": "2.5.2"
+  },
+  "dependencies": {
+    "@most/core": "0.13.0",
+    "@most/types": "0.11.1"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write --print-width 80 --tab-width 2 --no-semi --single-quote --trailing-comma es5 --parser typescript",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "build": "yarn build:commonjs && yarn build:es2015",
+    "build:commonjs": "tsc -P .config/tsconfig.commonjs.json",
+    "build:es2015": "tsc -P .config/tsconfig.es2015.json",
+    "postversion": "git push origin master --tags && npm publish --access=public",
+    "precommit": "lint-staged",
+    "preversion": "yarn test && yarn build",
+    "release:major": "npm version major -m 'chore(package): v%s'",
+    "release:minor": "npm version minor -m 'chore(package): v%s'",
+    "test:lint": "prettier --write --print-width 80 --tab-width 2 --no-semi --single-quote --trailing-comma es5 --parser typescript 'src/*.ts' 'src/**/*.ts'",
+    "test": "typed-test 'src/*.test.ts' 'src/**/*.test.ts'"
+  }
+}
