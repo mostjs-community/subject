@@ -11,12 +11,12 @@ export const test: Test = describe(`create`, [
     const scheduler = newDefaultScheduler()
     const [sink, stream] = create<number>()
 
-    setTimeout(() => {
-      values.forEach(n => sink.event(currentTime(scheduler), n))
-      sink.end(currentTime(scheduler))
-    }, 0)
+    const promise = collectEvents(scheduler, stream)
 
-    return collectEvents(scheduler, stream).then(equal(values))
+    values.forEach(n => sink.event(currentTime(scheduler), n))
+    sink.end(currentTime(scheduler))
+
+    return promise.then(equal(values))
   }),
 
   given(`(Stream<A>) => B`, [
@@ -27,10 +27,8 @@ export const test: Test = describe(`create`, [
         collectEvents<number>(scheduler, stream)
       )
 
-      setTimeout(() => {
-        values.forEach(n => sink.event(currentTime(scheduler), n))
-        sink.end(currentTime(scheduler))
-      }, 0)
+      values.forEach(n => sink.event(currentTime(scheduler), n))
+      sink.end(currentTime(scheduler))
 
       return promise.then(equal(values))
     }),

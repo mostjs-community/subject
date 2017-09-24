@@ -1,1 +1,6 @@
+export * from './attach'
 export * from './create'
+export * from './end'
+export * from './error'
+export * from './event'
+export * from './types'
