@@ -14,7 +14,9 @@ export class ProxyStream<A> extends MulticastSource<A> {
     this.scheduler = scheduler
     this.add(sink)
 
-    if (this.attached && !this.running) {
+    const shouldRun = this.attached && !this.running
+
+    if (shouldRun) {
       this.running = true
       this.disposable = this.source.run(this, scheduler)
 
@@ -30,24 +32,28 @@ export class ProxyStream<A> extends MulticastSource<A> {
     this.attached = true
     this.source = stream
 
-    if (this.sinks.length > 0)
-      this.disposable = stream.run(this, this.scheduler)
+    const hasMoreSinks = this.sinks.length > 0
+
+    if (hasMoreSinks) this.disposable = stream.run(this, this.scheduler)
 
     return stream
   }
 
   public error(time: Time, error: Error): void {
-    this.attached = false
-    this.running = false
+    this.cleanup()
 
     super.error(time, error)
   }
 
   public end(time: number): void {
-    this.attached = false
-    this.running = false
+    this.cleanup()
 
     super.end(time)
+  }
+
+  private cleanup() {
+    this.attached = false
+    this.running = false
   }
 }
 
@@ -65,8 +71,12 @@ class ProxyDisposable<A> implements Disposable {
   public dispose() {
     if (this.disposed) return
 
+    const { source, sink } = this
+
     this.disposed = true
-    const remaining = this.source.remove(this.sink)
-    return remaining === 0 && this.source.dispose()
+    const remainingSinks = source.remove(sink)
+    const hasNoMoreSinks = remainingSinks === 0
+
+    return hasNoMoreSinks && source.dispose()
   }
 }
