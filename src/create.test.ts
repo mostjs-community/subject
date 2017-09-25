@@ -19,18 +19,18 @@ export const test: Test = describe(`create`, [
     return promise.then(equal(values))
   }),
 
-  given(`(Stream<A>) => B`, [
-    it(`returns [Sink<A>, B]`, ({ equal }) => {
+  given(`(Stream<A>) => Stream<B>`, [
+    it(`returns [Sink<A>, Stream<B>]`, ({ equal }) => {
       const values = [1, 2, 3]
       const scheduler = newDefaultScheduler()
-      const [sink, promise] = create((stream: Stream<number>) =>
-        collectEvents<number>(scheduler, stream)
-      )
+      const [sink, stream] = create()
 
-      values.forEach(n => sink.event(currentTime(scheduler), n))
-      sink.end(currentTime(scheduler))
+      setTimeout(function() {
+        values.forEach(n => sink.event(currentTime(scheduler), n))
+        sink.end(currentTime(scheduler))
+      }, 0)
 
-      return promise.then(equal(values))
+      return collectEvents(scheduler, stream).then(equal(values))
     }),
   ]),
 
