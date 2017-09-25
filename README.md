@@ -11,8 +11,8 @@ npm install --save most-subject
 
 ## API Documentation
 
-#### create\<A\>(): [AttachSink\<A\>, Stream\<A\>]
-#### create\<A, B\>(f: (stream: Stream\<A\>) =\> B): [AttachSink\<A\>, B]
+#### create\<A\>(): Subject\<A, A\>
+#### create\<A, B\>(f: (stream: Stream\<A\>) =\> Stream\<B\>): Subject\<A, B\>
 
 Returns an tuple containing a `AttachSink` and a `Stream`. `AttachSink` can be 
 used to imperatively control the events following through the `Stream` or 
@@ -95,6 +95,14 @@ A curried function for calling `Sink.error(time, error)`
 #### end(time: Time, sink: Sink\<any\>): void
 
 A curried function for calling `Sink.end(time)`
+
+#### Subject\<A, B\>
+
+```typescript
+import { Sink, Stream } from '@most/types'
+
+export type Subject<A, B> = [AttachSink<A>, Stream<B>]
+```
 
 #### AttachSink\<A\>
 
