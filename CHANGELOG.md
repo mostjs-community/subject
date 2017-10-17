@@ -1,3 +1,8 @@
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/mostjs-community/subject/compare/v1.0.0...v6.0.0) (2017-10-17)
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/mostjs-community/subject/compare/v5.3.0...v1.0.0) (2017-10-17)
 
