@@ -1,3 +1,10 @@
-We'd highly appreciate your contribution to our source code to make this even better.
+# Contributing
 
-It would be greatly appreciated that when you make commits please use `npm run commit` instead of `git commit` to easily adhere to the commit message format in place.
+First of all, thank you so much, we need your help.
+
+## Contributing a fix or feature
+
+1. Fork the repository
+2. Switch to a new branch `git checkout -b [branchName]`
+3. Produce your fix or feature
+4. Submit a pull request for review
