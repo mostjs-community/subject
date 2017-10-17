@@ -14,10 +14,10 @@ npm install --save most-subject
 #### create\<A\>(): Subject\<A, A\>
 #### create\<A, B\>(f: (stream: Stream\<A\>) =\> Stream\<B\>): Subject\<A, B\>
 
-Returns an tuple containing a `AttachSink` and a `Stream`. `AttachSink` can be 
-used to imperatively control the events following through the `Stream` or 
-declaratively using `attach`. Optionally a function can be applied to `Stream` 
-and the return value of that function will be returned as the second tuple value. 
+Returns an tuple containing a `AttachSink` and a `Stream`. `AttachSink` can be
+used to imperatively control the events flowing through the `Stream` or
+declaratively using `attach`. Optionally, a function can be applied to the Stream, 
+and the return value of that function will be returned as the second tuple value.
 
 <details>
   <summary>See an example</summary>
@@ -28,22 +28,22 @@ import { runEffects, propagateEventTask } from '@most/core'
 import { newDefaultScheduler, currentTime } from '@most/scheduler'
 
 // Create a new `Scheduler` for use in our application.
-// Usually you will want to only have 1 scheduler and should be shared across 
-// your application
+// Usually, you will want to only have one Scheduler, and it should be shared 
+// across your application
 const scheduler = newDefaultScheduler()
 
-// create our sink and our stream
-// NOTE: stream is the resulting value of tap(console.log, stream)
+// Create our sink and our stream.
+// NOTE: stream is the resulting value of tap(console.log, stream).
 const [ sink, stream ] = create(tap<number>(console.log))
 
-// Pushes events into our stream
+// Pushes events into our stream.
 const next = (n: number) => event(currentTime(scheduler), n, sink)
 
-// activate our stream
+// Activate our stream.
 runEffects(stream, scheduler)
 
-// simulate asynchronous data fetching
-// and then push values into our stream
+// Simulate asynchronous data fetching,
+// and then push values into our stream.
 Promise.resolve([ 1, 2, 3 ])
  .then(data => data.forEach(next))
 ```
@@ -52,10 +52,9 @@ Promise.resolve([ 1, 2, 3 ])
 
 #### attach\<A\>(attachSink: AttachSink\<A\>, stream: Stream\<A\>): Stream\<A\>
 
-Allow for creating circular dependencies with additional logic to help avoid 
-memory leaks.  
+Create circular dependencies with additional logic to help avoid memory leaks.
 
-WARNING: There is no logic for breaking infinite loops
+WARNING: There isn't any logic for breaking infinite loops.
 
 <details>
   <summary>See an example</summary>
@@ -67,14 +66,14 @@ import { periodic, scan, take, runEffects } from '@most/core'
 import { newDefaultScheduler } from '@most/scheduler'
 
 // Create a new Scheduler for use in our application.
-// Usually you will want to only have 1 scheduler and should be shared across 
-// your application
+// Usually, you will want to only have one Scheduler, and it should be shared 
+// across your application.
 const scheduler = newDefaultScheduler()
 
 const [ sink, stream ] = create<number>()
 
-// listen to our stream
-// will log "1", "2", and "3"
+// Listen to our stream.
+// It will log 1, 2, and 3.
 runEffects(tap(console.log, take(3, stream)), scheduler)
 
 const origin = scan(x => x + 1, 0, periodic(100))
@@ -86,15 +85,15 @@ attach(origin)
 
 #### event\<A\>(time: Time, value: A, sink: Sink\<A\>): void
 
-A curried function for calling `Sink.event(time, value)`
+A curried function for calling `Sink.event(time, value)`.
 
 #### error(time: Time, error: Error, sink: Sink\<any\>): void
 
-A curried function for calling `Sink.error(time, error)`
+A curried function for calling `Sink.error(time, error)`.
 
 #### end(time: Time, sink: Sink\<any\>): void
 
-A curried function for calling `Sink.end(time)`
+A curried function for calling `Sink.end(time)`.
 
 #### Subject\<A, B\>
 
