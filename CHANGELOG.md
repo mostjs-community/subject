@@ -1,3 +1,23 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/mostjs-community/subject/compare/v5.3.0...v1.0.0) (2017-10-17)
+
+
+### Bug Fixes
+
+* fix Subject type ([cc52fbb](https://github.com/mostjs-community/subject/commit/cc52fbb))
+
+
+### Features
+
+* add Subject<A, B> type ([a9fc693](https://github.com/mostjs-community/subject/commit/a9fc693))
+* default to id function ([d175d90](https://github.com/mostjs-community/subject/commit/d175d90))
+* integrate proxy behavior ([300dd24](https://github.com/mostjs-community/subject/commit/300dd24))
+* restrict the return type to streams ([a6d1c37](https://github.com/mostjs-community/subject/commit/a6d1c37))
+* start fresh ([7f4f669](https://github.com/mostjs-community/subject/commit/7f4f669))
+* upgrade compatibility for [@most](https://github.com/most)/core ([82eaa8f](https://github.com/mostjs-community/subject/commit/82eaa8f))
+
+
+
 <a name="5.3.0"></a>
 # [5.3.0](https://github.com/mostjs-community/subject/compare/v5.2.0...v5.3.0) (2016-12-11)
 
