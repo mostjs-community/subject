@@ -24,7 +24,7 @@ and the return value of that function will be returned as the second tuple value
   
 ```typescript
 import { create, event } from 'most-subject'
-import { runEffects, propagateEventTask } from '@most/core'
+import { runEffects, propagateEventTask, tap } from '@most/core'
 import { newDefaultScheduler, currentTime } from '@most/scheduler'
 
 // Create a new `Scheduler` for use in our application.
@@ -62,7 +62,7 @@ WARNING: There isn't any logic for breaking infinite loops.
 ```typescript
 import { Stream } from '@most/types'
 import { create, attach } from 'most-subject'
-import { periodic, scan, take, runEffects } from '@most/core'
+import { periodic, scan, take, runEffects, tap } from '@most/core'
 import { newDefaultScheduler } from '@most/scheduler'
 
 // Create a new Scheduler for use in our application.
