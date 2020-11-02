@@ -24,7 +24,7 @@ and the return value of that function will be returned as the second tuple value
   
 ```typescript
 import { create, event } from 'most-subject'
-import { runEffects, propagateEventTask, tap } from '@most/core'
+import { runEffects, tap } from '@most/core'
 import { newDefaultScheduler, currentTime } from '@most/scheduler'
 
 // Create a new `Scheduler` for use in our application.
@@ -78,7 +78,7 @@ runEffects(tap(console.log, take(3, stream)), scheduler)
 
 const origin = scan(x => x + 1, 0, periodic(100))
 
-attach(origin)
+attach(sink, origin)
 ```
 
 </details>
